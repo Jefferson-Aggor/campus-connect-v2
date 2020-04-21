@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect | Account Register</title>
+
+    <style>
+        select {
+            color: #8B7575 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    {{!-- {{> _navbar}} --}}
+    <div class="container">
+
+        <div class="grid-2 all-center">
+            <div class="">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, perferendis!</p>
+            </div>
+            <div class="my-3 " id="register">
+
+                {{> _errors}}
+                <form action="/user/register" method="POST">
+
+                    <div class="shadow-sm">
+                        <input type="text" class="my-input" name="firstname" placeholder="firstname"
+                            value="{{firstname}}" required>
+                    </div>
+                    <div class="shadow-sm">
+                        <input type="text" class="my-input " name="lastname" placeholder="lastname"
+                            value="{{lastname}}">
+                    </div>
+
+
+                    <div class="shadow-sm my text-grey">
+                        <select class="my-input text-capitalize text-grey" name="school" required>
+                            <option value="{{school}}">Select School</option>
+                            <option value="university of ghana">University of Ghana</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="shadow-sm">
+                        <select class="my-input text-capitalize" name="programme" required>
+                            <option selected value="{{programme}}">Select Programme</option>
+                            <option value="bsc mechanical engineering">Bsc Mechanical engineering</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+
+
+                    <div class="shadow-sm">
+                        <input type="email" class="my-input " name="email" placeholder="e-mail" value="{{email}}"
+                            required>
+                    </div>
+                    <div class="shadow-sm">
+                        <input type="password" class="my-input " name='password' placeholder="password"
+                            value="{{password}}" required>
+
+                    </div>
+                    <p class=''>* password must be at least 6 characters</p>
+
+
+
+                    <div class="shadow">
+                        <input type="submit" value="Register" class="btn btn-block ">
+                    </div>
+                </form>
+                <div class="text-center">
+                    <p>Already have an account? <a href="/" id="login">Login</a></p>
+                </div>
+
+            </div>
+        </div>
+        {{!-- register --}}
+
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>

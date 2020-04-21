@@ -1,0 +1,101 @@
+<style>
+
+</style>
+
+<div class="grid-1-2-6">
+    <div class="nav-icons bg-dark">
+        <div class="container">
+            <div class="">
+                <ul class="nav nav-pills center-icons" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                            aria-controls="pills-home" aria-selected="true"> <i class="fas fa-globe fa-2x"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                            aria-controls="pills-profile" aria-selected="false"><i
+                                class="fas fa-book-reader fa-2x"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                            aria-controls="pills-contact" aria-selected="false"><i
+                                class="fab fa-neos fa-2x"></i></i>news</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-setting" role="tab"
+                            aria-controls="pills-setting" aria-selected="false"><i class="fas fa-cog fa-2x"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                            aria-controls="pills-contact" aria-selected="false"><i class="fas fa-user fa-2x"></i></a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="info-section bg-danger">
+        <div class="mx-3">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    {{> _navbar}}
+                </div>
+                <div class="tab-pane fade parent" id="pills-profile" role="tabpanel"
+                    aria-labelledby="pills-profile-tab">
+                    <input type="text" name="" class="before" id="enter-book">
+                    <button id="book-search" class="btn btn-block shadow-lg btn-dark">Search </button>
+                    <h1 class="loader">loading</h1>
+                    <div id="books-output"></div>
+
+                </div>
+                <div class="tab-pane fade parent" id="pills-contact" role="tabpanel"
+                    aria-labelledby="pills-contact-tab">
+                    <label for="select-news">select news category</label>
+                    <select name="select-news" id="selectNews" class="before">
+                        <option value="general">General</option>
+                        <option value="sports">Sports</option>
+                        <option value="science">Science</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="business">Business</option>
+                    </select>
+                    <button id="news-search" class="btn btn-block shadow-lg btn-dark mt-2">Search </button>
+                    <h1 class="newsLoader">loading</h1>
+                    <div id="news-output"></div>
+                </div>
+                <div class="tab-pane fade" id="pills-setting" role="tabpanel" aria-labelledby="pills-setting-tab">
+                    setting
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="chats">
+
+        <div id="msg-Container " class="message-container">
+            <div class="mx-3 date" id="date">
+                <p class="btn bg-dark">20 jan 2020</p>
+
+            </div>
+
+
+        </div>
+        <div class="input px-3" id="input">
+            <div class="display-flex">
+                <i class="fas fa-globe"></i>
+                <input type="text" class="my-input" id="msg-input" name="msg" placeholder="Enter message" required>
+
+                <div class="mt-2">
+                    <label for="file" class="btn btn-dark" id="file-label"> File</label>
+                    <input type="file" name="choose-file" id="file">
+                </div>
+                <div class="">
+                    <button class="btn btn-dark" id="msg-send">Send</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

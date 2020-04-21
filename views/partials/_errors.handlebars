@@ -1,0 +1,36 @@
+{{!-- errors from passport --}}
+{{#if error}}
+<div class="alert shadow bg-dark alert-dismissible fade show">{{error}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true" class="text-white">&times;</span>
+    </button>
+</div>
+{{/if}}
+
+
+{{!-- errors from registration --}}
+
+
+{{#if success_msg}}
+<div class="alert shadow bg-success alert-dismissible fade show" role="alert">{{success_msg}}
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{{/if}}
+{{#if error_msg}}
+<div class="alert shadow bg-danger alert-dismissible fade show">{{error_msg}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{{/if}}
+
+{{#each errors}}
+<div class="alert shadow bg-dark alert-dismissible fade show">{{msg}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{{/each}}

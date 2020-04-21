@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect | Home</title>
+    <style>
+        body {
+            background: url('/img/bg1.png') no-repeat center/cover;
+
+        }
+    </style>
+</head>
+
+<body>
+    {{!-- {{> _navbar}} --}}
+
+    <div class="container">
+        <div class="intro-text my-3">
+            <h1 class="large">The platform for students interaction..</h1>
+
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora assumenda molestiae rem incidunt
+                tempore, aut quidem soluta. Ut, consequatur mollitia!</p>
+        </div>
+
+        <div class="grid-2 p-1">
+            <div class="image ">
+                <img src="/img/schoolbooks.png" alt="">
+            </div>
+            <div class="my-5">
+                {{> _errors}}
+                <div class=" shadow p">
+
+                    <form action="/user/login" method="post">
+                        <div class="shadow-sm flex ">
+                            <input type="email" class="my-input " name="email" placeholder="e-mail" required>
+                        </div>
+                        <div class="shadow-sm">
+                            <input type="password" class="my-input " name='password' placeholder="password" required>
+
+                        </div>
+
+                        <div class="shadow-sm">
+                            <input type="submit" value="Login" class="btn btn-block btn-dark">
+                        </div>
+
+                        <div class="all-center">
+                            <p>Don't have an account? <a href="/user/register">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="about my-3" style="margin-bottom: 7rem;">
+            <div class=" intro-text">
+                <h3 class="large">How Campus Connect makes life easier..</h3>
+            </div>
+            <div class="my-3">
+                <div class="grid-2">
+                    <div>
+                        <div class="point-text my-1">
+                            <button class="btn">1</button>
+                            <p class="lead">Collaborations</p>
+                        </div>
+                        <div class="" style="margin-left: 2.5rem;">
+                            <div class="point-text">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                Cum,
+                                libero.
+                            </div>
+                            <div class="point-text">
+                                <i class="fas fa"></i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+                                libero.
+                            </div>
+                            <div class="point-text">
+                                <i class="fas fa"></i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+                                libero.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="hide-sm">
+                        <img src="/img/undraw_collaborators_prrw.svg" alt="">
+                    </div>
+                </div>
+
+
+            </div>
+
+            {{!-- point 2 --}}
+            <div class="" style="margin: 7rem 0;">
+                <div class="grid-2">
+                    <div class="hide-sm">
+                        <img src="/img/undraw_friends_online_klj6.svg" alt="">
+                    </div>
+                    <div>
+                        <div class="point-text my-1">
+                            <button class="btn">2</button>
+                            <p class="lead">Connections</p>
+                        </div>
+                        <div class="" style="margin-left: 2.5rem;">
+                            <div class="point-text">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                Cum,
+                                libero.
+                            </div>
+                            <div class="point-text">
+                                <i class="fas fa"></i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+                                libero.
+                            </div>
+                            <div class="point-text">
+                                <i class="fas fa"></i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+                                libero.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
