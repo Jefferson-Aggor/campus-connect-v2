@@ -694,6 +694,7 @@ table th {
 
 .text-messages {
   display: flex;
+
   margin: 0.8rem 0;
 }
 
@@ -731,6 +732,7 @@ table th {
 
 .chat-from-them {
   background: #f3f3f3;
+
   color: #333;
   padding: 0.5rem;
   float: left;

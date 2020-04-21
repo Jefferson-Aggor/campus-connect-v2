@@ -4,7 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const router = express.Router();
 
 const { cloud_name, api_key, api_secret } = require("../config/keys");
-const { formatMessage } = require("../utils/formatMessage");
+const { formatMessage, formatDate } = require("../utils/formatMessage");
 const { joinUser, getUser, userLeave } = require("../utils/chat-user");
 
 // require chat model
@@ -30,6 +30,16 @@ module.exports = function (io) {
     socket.on("join-chat", (details) => {
       const user = joinUser(socket.id, details.name, details.room);
       socket.join(user.room);
+      // load messages from mongoDB;
+      Chat.find({ room: user.room })
+        .then((message) => {
+          console.log("messages loaded");
+          socket.emit("prev-messages", formatDate(message.date), message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // chatbot messages
       socket.emit("chatbot-messages", "Welcome to campus connect chat");
       socket.broadcast

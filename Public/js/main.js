@@ -73,10 +73,125 @@ socket.on("chatbot-messages", (msg) => {
             </div>
     `;
 });
+// loading the messages from the database
+socket.on("prev-messages", (date, messages) => {
+  messages.map((message) => {
+    if (message.msgType === "text") {
+      if (message.userID === urlDetails.id) {
+        msgContainer.innerHTML += `
+       <div>
+                <div class="text-messages chat-from-me">
+                    <div class="messages">
+                        <div class="text">
+                            ${message.message}
+                            <span class='text-grey'>${date.time}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+       `;
+      } else {
+        msgContainer.innerHTML += `
+        <div class="text-messages ">
+                     <div class="image">
+                         <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+                     </div>
+                     <div class="messages">
+                         <div class="meta">
+                             <p>${message.username}</p>
+                             <p>${date.time}</p>
+                         </div>
+                         <div class="text">${message.message}</div>
+                     </div>
+                 
+          </div>       
+        `;
+      }
+    }
+    if (message.msgType === "image") {
+      if (message.userID === urlDetails.id) {
+        msgContainer.innerHTML += `
+  <div>
+<div class="text-messages chat-from-me">
+
+<div class="messages">
+  <div class="meta">
+      
+      <p>${date.time}</p>
+  </div>
+  <img class="text img-fluid" src='${message.message}'  style="width:200px;height:200px">
+ 
+</div>
+</div>
+<div class="clear"></div>
+</div>
+`;
+      } else {
+        msgContainer.innerHTML += `
+  <div class="text-messages ">
+  <div class="image">
+      <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+  </div>
+        <div class='messages'>
+          <div class="meta">
+            <p>${message.username}</p>
+            <p>${date.time}</p>
+          </div>
+        <img class="text img-fluid" src='${message.message}'  style="width:200px;height:200px">
+
+        </div>
+</div>
+  `;
+      }
+    }
+  });
+});
+
 // client messages
 socket.on("text-messages", (msg, details) => {
   if (urlDetails.id === details.id) {
-    msgContainer.innerHTML += `
+    textMessageFromMe(msg);
+  } else {
+    textMessageFromOthers(msg);
+  }
+});
+
+socket.on("image-from-server", (msg, image) => {
+  if (urlDetails.id === image.userId) {
+    imageFromMe(msg, image);
+  } else {
+    imageFromOthers(msg, image);
+  }
+});
+
+socket.on("video-from-server", (msg, video) => {
+  if (urlDetails.id === video.userId) {
+    videoFromMe(msg, video);
+  } else {
+    videoFromOthers(msg, video);
+  }
+});
+
+socket.on("audio-from-server", (msg, audio) => {
+  if (urlDetails.id === audio.userId) {
+    audioFromMe(msg, audio);
+  } else {
+    audioFromOthers(msg, audio);
+  }
+});
+
+socket.on("pdf-from-server", (msg, pdf) => {
+  if (urlDetails.id == pdf.userId) {
+    pdfFromME(msg, pdf);
+  } else {
+    pdfFromOthers(msg, pdf);
+  }
+});
+
+// messages
+function textMessageFromMe(msg) {
+  msgContainer.innerHTML += `
        <div>
                 <div class="text-messages chat-from-me">
                     <div class="messages">
@@ -92,8 +207,9 @@ socket.on("text-messages", (msg, details) => {
                 <div class="clear"></div>
             </div>
        `;
-  } else {
-    msgContainer.innerHTML += `
+}
+function textMessageFromOthers(msg) {
+  msgContainer.innerHTML += `
        <div class="text-messages ">
                     <div class="image">
                         <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
@@ -108,127 +224,124 @@ socket.on("text-messages", (msg, details) => {
                     </div>
                 </div>
        `;
-  }
-});
+}
 
-socket.on("image-from-server", (msg, image) => {
-  if (urlDetails.id === image.userId) {
-    msgContainer.innerHTML += `
-        <div>
-    <div class="text-messages chat-from-me">
-    
-    <div class="messages">
-        <div class="meta">
-            
-            <p>${msg.date}</p>
-        </div>
-        <img class="text img-fluid" src='${image.fileEnctype}'  style="width:200px;height:200px">
-       
-    </div>
+function imageFromMe(msg, image) {
+  msgContainer.innerHTML += `
+  <div>
+<div class="text-messages chat-from-me">
+
+<div class="messages">
+  <div class="meta">
+      
+      <p>${msg.date}</p>
+  </div>
+  <img class="text img-fluid" src='${image.fileEnctype}'  style="width:200px;height:200px">
+ 
+</div>
 </div>
 <div class="clear"></div>
 </div>
-    `;
-  } else {
-    msgContainer.innerHTML += `
-    <div class="text-messages ">
-    <div class="image">
-        <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
-    </div>
-    <div class="messages">
-        <div class="meta">
-            <p>${msg.username}</p>
-            <p>${msg.date}</p>
-        </div>
-        <img class="text img-fluid" src='${image.fileEnctype}'  style="width:200px;height:200px">
-       
-    </div>
+`;
+}
+function imageFromOthers(msg, image) {
+  msgContainer.innerHTML += `
+  <div class="text-messages ">
+  <div class="image">
+      <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+  </div>
+  <div class="messages">
+      <div class="meta">
+          <p>${msg.username}</p>
+          <p>${msg.date}</p>
+      </div>
+      <img class="text img-fluid" src='${image.fileEnctype}'  style="width:200px;height:200px">
+     
+  </div>
 </div>
-    `;
-  }
-});
+  `;
+}
 
-socket.on("video-from-server", (msg, video) => {
-  if (urlDetails.id === video.userId) {
-    msgContainer.innerHTML += `
-        <div>
-    <div class="text-messages chat-from-me">
-    
-    <div class="messages">
-        <div class="meta">
-            
-            <p>${msg.date}</p>
-        </div>
-        <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
-       
-    </div>
+function videoFromMe(msg, video) {
+  msgContainer.innerHTML += `
+  <div>
+<div class="text-messages chat-from-me">
+
+<div class="messages">
+  <div class="meta">
+      
+      <p>${msg.date}</p>
+  </div>
+  <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
+ 
+</div>
 </div>
 <div class="clear"></div>
 </div>
-    `;
-  } else {
-    msgContainer.innerHTML += `
-    <div class="text-messages ">
-    <div class="image">
-        <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
-    </div>
-    <div class="messages">
-        <div class="meta">
-            <p>${msg.username}</p>
-            <p>${msg.date}</p>
-        </div>
+`;
+}
 
-        
-    <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
+function videoFromOthers(msg, video) {
+  msgContainer.innerHTML += `
+  <div class="text-messages ">
+  <div class="image">
+      <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+  </div>
+  <div class="messages">
+      <div class="meta">
+          <p>${msg.username}</p>
+          <p>${msg.date}</p>
+      </div>
 
-       
-    </div>
+      
+  <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
+
+     
+  </div>
 </div>
-    `;
-  }
-});
-socket.on("audio-from-server", (msg, audio) => {
-  if ((urlDetails, audio.urlDetails)) {
-    msgContainer.innerHTML += `
-        <div>
-    <div class="text-messages chat-from-me">
-    
-    <div class="messages">
-        <div class="meta">
-            
-            <p>${msg.date}</p>
-        </div>
-        <audio src="${audio.fileEnctype}" controls "></audio>
-       
-    </div>
+  `;
+}
+function audioFromMe() {
+  msgContainer.innerHTML += `
+  <div>
+<div class="text-messages chat-from-me">
+
+<div class="messages">
+  <div class="meta">
+      
+      <p>${msg.date}</p>
+  </div>
+  <audio src="${audio.fileEnctype}" controls "></audio>
+ 
+</div>
 </div>
 <div class="clear"></div>
 </div>
-    `;
-  } else {
-    msgContainer.innerHTML += `
-    <div class="text-messages ">
-    <div class="image">
-        <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
-    </div>
-    <div class="messages">
-        <div class="meta">
-            <p>${msg.username}</p>
-            <p>${msg.date}</p>
-        </div>
+`;
+}
+function audioFromOthers(msg, audio) {
+  msgContainer.innerHTML += `
+  <div class="text-messages ">
+  <div class="image">
+      <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+  </div>
+  <div class="messages">
+      <div class="meta">
+          <p>${msg.username}</p>
+          <p>${msg.date}</p>
+      </div>
 
-        
-    <audio src="${audio.fileEnctype}" controls "></audio>
+      
+  <audio src="${audio.fileEnctype}" controls "></audio>
 
-       
-    </div>
+     
+  </div>
 </div>
-    `;
-  }
-});
-socket.on("pdf-from-server", (msg, pdf) => {
-  if (urlDetails.id == pdf.userId) {
-    msgContainer.innerHTML += `
+  `;
+}
+
+function pdfFromME(msg, pdf) {
+  msgContainer.innerHTML += `
     <div>
         <div class="text-messages chat-from-me">
             <div class="messages">
@@ -247,26 +360,26 @@ socket.on("pdf-from-server", (msg, pdf) => {
         <div class="clear"></div>
     </div>
 `;
-  } else {
-    msgContainer.innerHTML += `
-    <div class="text-messages ">
-        <div class="image">
-            <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
-        </div>
-        <div class="messages">
-            <div class="meta">
-                <p>${msg.username}</p>
-                <p>${msg.date}</p>
-            </div>
-        </div>    
-        <div>
-            <embed src="${pdf.fileEnctype}" type="application/pdf">
-            <p >${pdf.name}</p>
-            <a href='${pdf.fileEnctype}' download>Download</div>
-        </div>   
-    
-    </div>
+}
+function pdfFromOthers(msg, pdf) {
+  msgContainer.innerHTML += `
+  <div class="text-messages ">
+      <div class="image">
+          <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+      </div>
+      <div class="messages">
+          <div class="meta">
+              <p>${msg.username}</p>
+              <p>${msg.date}</p>
+          </div>
+      </div>    
+      <div>
+          <embed src="${pdf.fileEnctype}" type="application/pdf">
+          <p >${pdf.name}</p>
+          <a href='${pdf.fileEnctype}' download>Download</div>
+      </div>   
+  
+  </div>
 
-    `;
-  }
-});
+  `;
+}
