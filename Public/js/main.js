@@ -31,10 +31,11 @@ msgSend.addEventListener("click", function (e) {
   const msgVal = msgInput.value;
   if (msgVal === "" || msgVal === null) {
     console.log("input empty");
+  } else {
+    socket.emit("text-message", msgVal, urlDetails);
+    msgInput.value = "";
+    msgInput.focus();
   }
-  socket.emit("text-message", msgVal, urlDetails);
-  msgInput.value = "";
-  msgInput.focus();
 });
 fileInput.addEventListener("change", function (e) {
   const file = e.target.files[0];
@@ -61,7 +62,11 @@ fileInput.addEventListener("change", function (e) {
       console.log(`file is a ${file.type} file`);
       socket.emit("video", fileDetails);
     }
-    if (file.type === "audio/mp3") {
+    if (
+      file.type === "audio/mp3" ||
+      file.type === "audio/mpeg" ||
+      file.type === "audio/mp4"
+    ) {
       console.log(`file is a ${file.type} file`);
       socket.emit("audio", fileDetails);
     }
@@ -78,11 +83,10 @@ socket.emit("join-chat", urlDetails);
 
 // chatbot messages
 socket.on("chatbot-messages", (msg) => {
-  console.log(msg);
   msgContainer.innerHTML += `
     <div class="mx-3 date" >
-                <p class="">${msg.date}</p>
-                <p>${msg.msg}</p>
+              
+                <p>${msg}</p>
             </div>
     `;
 });
@@ -196,6 +200,7 @@ socket.on("video-from-server", (msg, video) => {
 });
 
 socket.on("audio-from-server", (msg, audio) => {
+  console.log(audio);
   if (urlDetails.id === audio.userId) {
     audioFromMe(msg, audio);
   } else {

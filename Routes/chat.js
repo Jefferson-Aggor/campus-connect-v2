@@ -35,10 +35,7 @@ module.exports = function (io) {
         .then((message) => {
           console.log("messages loaded");
           socket.emit("prev-messages", message);
-          socket.emit(
-            "chatbot-messages",
-            formatMessage("", "Welcome to campus connect chat")
-          );
+          socket.emit("chatbot-messages", "Welcome to campus connect chat");
         })
         .catch((err) => {
           console.log(err);
@@ -78,29 +75,37 @@ module.exports = function (io) {
 
     socket.on("image", (image) => {
       const user = getUser(socket.id);
-      cloudinary.uploader.upload(image.fileEnctype, (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(result);
-          const newMessage = {
-            room: user.room,
-            username: user.username,
-            userID: image.userId,
-            message: result.secure_url,
-            msgType: "image",
-          };
+      let eager_options = {
+        quality: "60",
+        format: "jpg",
+      };
+      cloudinary.uploader.upload(
+        image.fileEnctype,
+        { eager: eager_options },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result);
+            const newMessage = {
+              room: user.room,
+              username: user.username,
+              userID: image.userId,
+              message: result.secure_url,
+              msgType: "image",
+            };
 
-          new Chat(newMessage)
-            .save()
-            .then(() => {
-              console.log(newMessage);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+            new Chat(newMessage)
+              .save()
+              .then(() => {
+                console.log(newMessage);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         }
-      });
+      );
       io.to(user.room).emit(
         "image-from-server",
         formatMessage(user.username, ""),
