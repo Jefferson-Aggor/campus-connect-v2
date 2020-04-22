@@ -8,9 +8,4 @@ module.exports = {
       date: moment().format("h:mm a"),
     };
   },
-  formatDate: function (date) {
-    return {
-      time: moment(date).format("h:mm a"),
-    };
-  },
 };

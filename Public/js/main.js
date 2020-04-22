@@ -1,12 +1,20 @@
 // dom elemnets
 const msgContainer = document.querySelector(".message-container");
-// const dateUI = document.getElementById("date");
+const dateUI = document.getElementById("date");
 const msgInput = document.getElementById("msg-input");
 const msgSend = document.getElementById("msg-send");
 const fileInput = document.getElementById("file");
 
 // connect socket io
 const socket = io();
+
+// format time;
+function formatTime(date) {
+  return moment(date).format("h:mm a");
+}
+function formatDate(date) {
+  return moment(date).format("dddd, MMM / DD / YYYY");
+}
 
 let params = new URL(document.location).searchParams;
 
@@ -21,6 +29,9 @@ console.log(urlDetails);
 msgSend.addEventListener("click", function (e) {
   e.preventDefault();
   const msgVal = msgInput.value;
+  if (msgVal === "" || msgVal === null) {
+    console.log("input empty");
+  }
   socket.emit("text-message", msgVal, urlDetails);
   msgInput.value = "";
   msgInput.focus();
@@ -67,24 +78,31 @@ socket.emit("join-chat", urlDetails);
 
 // chatbot messages
 socket.on("chatbot-messages", (msg) => {
+  console.log(msg);
   msgContainer.innerHTML += `
     <div class="mx-3 date" >
-                <p class="">${msg}</p>
+                <p class="">${msg.date}</p>
+                <p>${msg.msg}</p>
             </div>
     `;
 });
 // loading the messages from the database
-socket.on("prev-messages", (date, messages) => {
+socket.on("prev-messages", (messages) => {
   messages.map((message) => {
     if (message.msgType === "text") {
       if (message.userID === urlDetails.id) {
+        dateUI.innerHTML += `
+       <p class="btn bg-dark">${formatDate(message.date)}</p>
+       `;
         msgContainer.innerHTML += `
        <div>
                 <div class="text-messages chat-from-me">
                     <div class="messages">
                         <div class="text">
                             ${message.message}
-                            <span class='text-grey'>${date.time}</span>
+                            <span class='text-grey'>${formatTime(
+                              message.date
+                            )}</span>
                         </div>
                     </div>
                 </div>
@@ -100,7 +118,7 @@ socket.on("prev-messages", (date, messages) => {
                      <div class="messages">
                          <div class="meta">
                              <p>${message.username}</p>
-                             <p>${date.time}</p>
+                             <p>${formatTime(message.date)}</p>
                          </div>
                          <div class="text">${message.message}</div>
                      </div>
@@ -118,9 +136,11 @@ socket.on("prev-messages", (date, messages) => {
 <div class="messages">
   <div class="meta">
       
-      <p>${date.time}</p>
+      <p>${formatTime(message.date)}</p>
   </div>
-  <img class="text img-fluid" src='${message.message}'  style="width:200px;height:200px">
+  <img class="text img-fluid" src='${
+    message.message
+  }'  style="width:200px;height:200px">
  
 </div>
 </div>
@@ -136,9 +156,11 @@ socket.on("prev-messages", (date, messages) => {
         <div class='messages'>
           <div class="meta">
             <p>${message.username}</p>
-            <p>${date.time}</p>
+            <p>${formatTime(message.date)}</p>
           </div>
-        <img class="text img-fluid" src='${message.message}'  style="width:200px;height:200px">
+        <img class="text img-fluid" src='${
+          message.message
+        }'  style="width:200px;height:200px">
 
         </div>
 </div>
@@ -269,11 +291,9 @@ function videoFromMe(msg, video) {
 
 <div class="messages">
   <div class="meta">
-      
       <p>${msg.date}</p>
   </div>
-  <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
- 
+  <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video
 </div>
 </div>
 <div class="clear"></div>
@@ -292,27 +312,20 @@ function videoFromOthers(msg, video) {
           <p>${msg.username}</p>
           <p>${msg.date}</p>
       </div>
-
-      
-  <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
-
-     
+      <video src="${video.fileEnctype}" controls style="width:200px;height:200px"></video>
   </div>
 </div>
   `;
 }
-function audioFromMe() {
+function audioFromMe(msg, audio) {
   msgContainer.innerHTML += `
   <div>
 <div class="text-messages chat-from-me">
-
 <div class="messages">
   <div class="meta">
-      
       <p>${msg.date}</p>
   </div>
-  <audio src="${audio.fileEnctype}" controls "></audio>
- 
+  <audio src="${audio.fileEnctype}" controls ></audio>
 </div>
 </div>
 <div class="clear"></div>
@@ -330,9 +343,7 @@ function audioFromOthers(msg, audio) {
           <p>${msg.username}</p>
           <p>${msg.date}</p>
       </div>
-
-      
-  <audio src="${audio.fileEnctype}" controls "></audio>
+  <audio src="${audio.fileEnctype}" controls ></audio>
 
      
   </div>
