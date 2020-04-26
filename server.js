@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Handlebars = require("handlebars");
 const exphbs = require("express-handlebars");
 const {
-    allowInsecurePrototypeAccess,
+  allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -24,10 +24,10 @@ const {} = require("./helpers/hbs");
 
 // middlewares
 app.engine(
-    "handlebars",
-    exphbs({
-        handlebars: allowInsecurePrototypeAccess(Handlebars),
-    })
+  "handlebars",
+  exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+  })
 );
 app.set("view engine", "handlebars");
 
@@ -39,20 +39,20 @@ app.use(bodyParser.json());
 
 // express sessions
 app.use(
-    session({
-        secret: "secret",
-        resave: false,
-        saveUninitialized: true,
-    })
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+  })
 );
 // connect flash
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.success_msg = req.flash("success_msg");
-    res.locals.error_msg = req.flash("error_msg");
-    res.locals.error = req.flash("error");
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
 
-    next();
+  next();
 });
 
 // init passport
@@ -68,13 +68,13 @@ const { mongURI } = require("./config/keys");
 
 // connect mongoDB
 mongoose
-    .connect(mongURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("MongoDB connected");
-    })
-    .catch((err) => {
-        console.log(`MongDB not connected because of ${err}`);
-    });
+  .connect(mongURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.log(`MongDB not connected because of ${err}`);
+  });
 
 app.use("/", index);
 app.use("/user", user);

@@ -1,5 +1,6 @@
 // dom elemnets
 const msgContainer = document.querySelector(".message-container");
+const usersList = document.getElementById("pills-home");
 const dateUI = document.getElementById("date");
 const msgInput = document.getElementById("msg-input");
 const msgSend = document.getElementById("msg-send");
@@ -26,8 +27,19 @@ urlDetails = {
 
 console.log(urlDetails);
 
+// send the connected users to the server;
+socket.on("users", (data) => {
+  usersList.innerHTML += "";
+  data.users.map((datum) => {
+    usersList.innerHTML += `
+    <p><a href='/'>${datum.username}</a></p>
+    `;
+  });
+});
+
 msgSend.addEventListener("click", function (e) {
   e.preventDefault();
+
   const msgVal = msgInput.value;
   if (msgVal === "" || msgVal === null) {
     console.log("input empty");
@@ -121,7 +133,11 @@ socket.on("prev-messages", (messages) => {
                      </div>
                      <div class="messages">
                          <div class="meta">
-                             <p>${message.username}</p>
+                             <p><a href='/chat-room/private-chat/?from=${
+                               urlDetails.name
+                             }&to=${
+          message.username
+        }' target="_blank" rel="noopener noreferrer">${message.username}</a></p>
                              <p>${formatTime(message.date)}</p>
                          </div>
                          <div class="text">${message.message}</div>
@@ -169,6 +185,38 @@ socket.on("prev-messages", (messages) => {
         </div>
 </div>
   `;
+      }
+    }
+    if (message.msgType === "audio") {
+      if (message.userID === urlDetails.id) {
+        msgContainer.innerHTML += `
+        <div>
+<div class="text-messages chat-from-me">
+<div class="messages">
+  <div class="meta">
+      <p>${formatTime(message.date)}</p>
+  </div>
+  <audio src="${message.message}" controls ></audio>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+        `;
+      } else {
+        msgContainer.innerHTML += `
+        <div class="text-messages ">
+        <div class="image">
+            <img src="/img/schoolbooks.png" class="img-fluid" alt="" style="width:70px;height:70px">
+        </div>
+        <div class="messages">
+            <div class="meta">
+                <p>${message.username}</p>
+                <p>${message.date}</p>
+            </div>
+        <audio src="${message.message}" controls ></audio>
+        </div>
+      </div>
+        `;
       }
     }
   });
@@ -399,3 +447,5 @@ function pdfFromOthers(msg, pdf) {
 
   `;
 }
+
+// Private Chats;

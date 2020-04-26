@@ -5,7 +5,12 @@ const router = express.Router();
 
 const { cloud_name, api_key, api_secret } = require("../config/keys");
 const { formatMessage } = require("../utils/formatMessage");
-const { joinUser, getUser, userLeave } = require("../utils/chat-user");
+const {
+  joinUser,
+  getUser,
+  userLeave,
+  getAllUsers,
+} = require("../utils/chat-user");
 
 // require chat model
 require("../models/Chat");
@@ -18,9 +23,15 @@ cloudinary.config({
   api_secret: api_secret,
 });
 
+let privateChatUsers = [];
 module.exports = function (io) {
   router.get("/", (req, res) => {
     res.render("chats/chatroom");
+  });
+
+  // private chat route.
+  router.get("/private-chat", (req, res) => {
+    res.render("chats/private-chat");
   });
 
   io.on("connection", (socket) => {
@@ -42,6 +53,7 @@ module.exports = function (io) {
         });
 
       // chatbot messages
+      io.to(user.room).emit("users", { users: getAllUsers(user.room) });
 
       socket.broadcast
         .to(user.room)
@@ -116,7 +128,7 @@ module.exports = function (io) {
       const user = getUser(socket.id);
       cloudinary.uploader.upload_large(
         video.fileEnctype,
-        { resource_type: "video", chunk_size: 100000 },
+        { resource_type: "video" },
         (err, result) => {
           if (err) {
             console.log(err);
@@ -149,7 +161,7 @@ module.exports = function (io) {
       const user = getUser(socket.id);
       cloudinary.uploader.upload_large(
         audio.fileEnctype,
-        { resource_type: "video", chunk_size: 100000 },
+        { resource_type: "video" },
         (err, result) => {
           if (err) {
             console.log(err);
@@ -212,11 +224,23 @@ module.exports = function (io) {
       );
     });
 
+    socket.on("private-chat-users", (data) => {
+      privateChatUsers[data.from] = socket.id;
+
+      console.log(privateChatUsers);
+    });
+
+    // private chats here;
+    socket.on("private-text", (msg, messageDetails) => {
+      const socketID = privateChatUsers[messageDetails.to];
+      io.to(socketID).emit("new_message", msg, messageDetails);
+    });
+
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
-
       if (user) {
         io.to(user.room).emit("chatbot-messages", `${user.username} left`);
+        io.to(user.room).emit("users", { users: userLeave(user.id) });
       }
     });
   });
