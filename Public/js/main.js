@@ -291,7 +291,8 @@ function textMessageFromOthers(msg) {
                     </div>
                     <div class="messages">
                         <div class="meta">
-                            <p>${msg.username}</p>
+                        
+                            <p><a href='/chat-room/private-chat/?from=${urlDetails.name}&to=${msg.username}' target='_blank'>${msg.username}</a></p>
                             <p>${msg.date}</p>
                         </div>
                         <div class="text">${msg.msg}

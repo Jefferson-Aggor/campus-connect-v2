@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const router = express.Router();
 
 const { cloud_name, api_key, api_secret } = require("../config/keys");
+const requireLogin = require("../config/requireLogin");
 const { formatMessage } = require("../utils/formatMessage");
 const {
   joinUser,
@@ -30,7 +31,7 @@ module.exports = function (io) {
   });
 
   // private chat route.
-  router.get("/private-chat", (req, res) => {
+  router.get("/private-chat", requireLogin, (req, res) => {
     res.render("chats/private-chat");
   });
 

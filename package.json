@@ -25,6 +25,7 @@
         "sweetalert2": "^9.10.9"
     },
     "devDependencies": {
-        "mongoose": "^5.9.7"
+        "mongoose": "^5.9.7",
+        "nodemon": "^2.0.3"
     }
 }
