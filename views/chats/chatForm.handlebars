@@ -13,52 +13,8 @@
 </style>
 
 <body>
-    <div class="grid-4-7" style="height: 100vh;">
-        <div class="" style="background-color: #000;">
-            <div class="container">
-                <div class="all-center" style="height: 92vh;">
-                    <div class="my-3">
-                        <li>select room to join</li>
-                        <li>Join and have fun!</li>
-                        <li>{{user._id}}</li>
 
-
-                    </div>
-
-                    <form action="/chat-room">
-                        <div class="hoverable">
-                            <input type="text" class="my-input text-lowercase " name="username" placeholder="username."
-                                value="{{user.firstname}} {{user.lastname}}">
-                        </div>
-                        <div class="hoverable">
-                            <input type="text" class="my-input text-lowercase  hide" name="id" placeholder="id."
-                                style="display: none;" value="{{user._id}}">
-                        </div>
-                        <div class="hoverable">
-                            <select class="my-input text-capitalize" name="room" required>
-                                <option selected value="{{programme}}"></option>
-                                <option value="bsc mechanical engineering"> Bsc Mechanical
-                                    engineering</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-
-                        <div class="shadow-sm">
-                            <input type="submit" value="Go to Room" class="btn btn-block btn-dark">
-                        </div>
-
-
-                    </form>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="all-center" style="height: 91;">
-            <img src="/img/bg-2.png" alt="">
-        </div>
-    </div>
+    {{> _chatForm}}
 </body>
 
 </html>
