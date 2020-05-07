@@ -7,23 +7,17 @@
 
     </div>
 
-    <form action="/chat-room">
+    <form action="/chat-room/{{user.programme}}">
         <div class="hoverable">
             <input type="text" class="my-input text-lowercase " name="username" placeholder="username."
-                value="{{user.firstname}} {{user.lastname}}">
+                value="{{user.firstname}} {{user.lastname}}" readonly>
         </div>
         <div class="hoverable">
             <input type="text" class="my-input text-lowercase  hide" name="id" placeholder="id." style="display: none;"
                 value="{{user._id}}">
         </div>
         <div class="hoverable">
-            <select class="my-input text-capitalize" name="room" required>
-                <option selected value="{{programme}}"></option>
-                <option value="bsc mechanical engineering"> Bsc Mechanical
-                    engineering</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+            <input type="text" name="room" id="" class="my-input text-capitalize" value="{{user.programme}}" readonly>
         </div>
 
         <div class="shadow-sm">

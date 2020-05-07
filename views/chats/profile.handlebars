@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{singleUser.firstname}} {{singleUser.lastname}}'profile</title>
+    <style>
+        .list-group .list-group-item {
+            background-color: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-9-3">
+        <div>
+            <div class="jumbotron ">
+                <div class="container">
+                    <div class="display-flex ">
+                        <img src="/img/bg-2.png" class="rounded img-thumbnail profile-img mx-5" alt="...">
+                        <div>
+                            <h1 class="display-4">{{singleUser.firstname}} {{singleUser.lastname}}</h1>
+                            <p class="">
+                                <ul class="list-group list-group-flush bg-transparent">
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas text-grey fa-school" style="margin-right: 3rem;"></i><span
+                                            class="text-dark text-capitalize"><strong>{{singleUser.school}}</strong></span>
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas text-grey fa-book" style="margin-right: 3rem;"></i><span
+                                            class="text-dark "><strong>{{singleUser.programme}}</strong></span>
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas text-grey fa-envelope" style="margin-right: 3rem;"></i><span
+                                            class="text-dark "><strong>{{singleUser.email}}</strong></span>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <a href="/chat-room/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{singleUser.firstname}} {{singleUser.lastname}}"
+                    class="btn btn-dark">Send Private Message</a>
+            </div>
+        </div>
+        <div>
+            <img src="/img/bg-2.png" alt="">
+        </div>
+    </div>
+
+    {{!-- user's posts  --}}
+    <div class="container">
+        {{#if post}}
+        {{#each post}}
+        <p>{{title}}</p>
+        {{/each}}
+        {{else}}
+        <p>No post yet...</p>
+        {{/if}}
+    </div>
+</body>
+
+</html>

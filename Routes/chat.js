@@ -15,7 +15,10 @@ const {
 
 // require chat model
 require("../models/Chat");
+require("../models/Post");
 const Chat = mongoose.model("chat");
+const User = mongoose.model("user");
+const Post = mongoose.model("posts");
 
 // init cloudinary
 cloudinary.config({
@@ -26,13 +29,34 @@ cloudinary.config({
 
 let privateChatUsers = [];
 module.exports = function (io) {
-  router.get("/", (req, res) => {
-    res.render("chats/chatroom");
+  router.get("/:programme", requireLogin, (req, res) => {
+    User.find({ programme: req.params.programme })
+      .populate("posts")
+      .then((user) => {
+        res.render("chats/chatroom", { user, loggedUser: req.user });
+      });
+  });
+
+  // chat room view user profile
+  router.get("/userprofile/:_id", requireLogin, (req, res) => {
+    Post.find({ user: req.params._id })
+      .populate("user")
+      .then((post) => {
+        User.findOne({ _id: req.params._id }).then((singleUser) => {
+          console.log(post);
+          console.log("single user", singleUser);
+          res.render("chats/profile", {
+            post,
+            singleUser,
+            loggedUser: req.user,
+          });
+        });
+      });
   });
 
   // private chat route.
   router.get("/private-chat", requireLogin, (req, res) => {
-    res.render("chats/private-chat");
+    res.send("private chatroom");
   });
 
   io.on("connection", (socket) => {

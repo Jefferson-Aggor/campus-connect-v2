@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
+
 const router = express.Router();
 
 // require models
 require("../models/Users");
+require("../models/Post");
 const User = mongoose.model("user");
+const Post = mongoose.model("posts");
 
 const requireLogin = require("../config/requireLogin");
 
@@ -18,8 +21,8 @@ router.get("/register", (req, res) => {
 router.get("/chat-form", requireLogin, (req, res) => {
   res.render("chats/chatForm", { user: req.user });
 });
-// register user to db
 
+// register user to db
 router.post("/register", (req, res) => {
   const { firstname, lastname, school, programme, email, password } = req.body;
   let errors = [];
@@ -85,12 +88,20 @@ router.post("/register", (req, res) => {
   }
 });
 
+// user login
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
     failureRedirect: "/",
     successRedirect: "/user/chat-form",
     failureFlash: true,
   })(req, res, next);
+});
+
+// user logout
+router.get("/logout", (req, res) => {
+  req.logout();
+  req.flash("success_msg", "You've successfully logged out.");
+  res.redirect("/");
 });
 
 module.exports = router;

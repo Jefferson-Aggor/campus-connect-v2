@@ -34,11 +34,29 @@
             </div>
         </div>
     </div>
-    <div class="info-section bg-danger">
+    <div class="info-section" style="border-right: 4px solid #f3f3f3;">
         <div class="mx-3">
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    {{> _navbar}}
+                    <h3>{{user.length}} Members</h3>
+                    {{#each user}}
+                    <div class="space-between">
+                        <p><a>{{firstname}} {{lastname}}</a></p>
+                        <div>
+                            {{>_dropdown}}
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                <a class="dropdown-item"
+                                    href="/chat-room/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{firstname}} {{lastname}}">Message
+                                    Privately</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/chat-room/userprofile/{{_id}}">View
+                                    Profile</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {{/each}}
                 </div>
                 <div class="tab-pane fade parent" id="pills-profile" role="tabpanel"
                     aria-labelledby="pills-profile-tab">

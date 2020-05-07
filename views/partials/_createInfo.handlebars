@@ -1,34 +1,44 @@
+<div class="wrapper" style="min-height: 94vh;">
+    <ul class="text-center">
+        <li>
+            <p>Have posts , info and opportunities?</p>
 
-<div class="all-center" style="height: 92vh;">
-    <div class="my-3">
-        <li>Post info to students.</li>
-        <li>Make dreams come true..</li>
-    </div>
+        </li>
 
-    <form action="/create-info" method="POST" enctype="multipart/form-data">
-        <div class="hoverable">
-            <input type="text" class="my-input text-lowercase " name="username" placeholder="username."
-                value="{{user.firstname}} {{user.lastname}}">
-        </div>
-        <div class="hoverable">
-            <input type="text" class="my-input text-lowercase  hide" name="id" placeholder="id." style="display: none;"
-                value="{{user._id}}">
-        </div>
-        <div class="hoverable">
-            <select class="my-input text-capitalize" name="room" required>
-                <option selected value="{{programme}}"></option>
-                <option value="bsc mechanical engineering"> Bsc Mechanical
-                    engineering</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+    </ul>
+    <form action="/api/user/create-info" method="POST">
+        {{!-- type --}}
+        <label for="">Info Type:</label>
+        <select class="my-input " name="infoType" id="infoType">
+            <option value="advertisment">Advertisment</option>
+            <option value="internship">Internship</option>
+            <option value="upcomingProgramme">Upcoming Programme</option>
+        </select>
+
+        {{!-- related to --}}
+        <label for="" class="">Related to:</label>
+        {{> _programmesList}}
+
+        {{!-- title --}}
+        <label for="">Post Title</label>
+        <input type="text" name="title" id="postTitle" class="my-input">
+
+        {{!-- body --}}
+        <label for="">Post Body:</label>
+        <textarea name="body" id="" class="my-input" style="height: 12vh;"></textarea>
+
+        {{!-- file and preview file --}}
+        <div class="grid-2 my-3">
+            <div>
+                <label for="uploadFile" class="btn btn-dark">Upload File</label>
+                <input type="file" name="file" id="uploadFile" style="display: none;">
+            </div>
+            <div class="bg-dark" style="height: 10vh;"></div>
         </div>
 
         <div class="shadow-sm">
-            <input type="submit" value="Go to Room" class="btn btn-block btn-dark">
+            <input type="submit" value="Post Info..." class="btn btn-block btn-dark">
         </div>
-
-
 
     </form>
 </div>

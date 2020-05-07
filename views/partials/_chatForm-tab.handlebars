@@ -16,8 +16,9 @@
     </div>
 
 </div>
-<div class="all-center">
-    <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist">
+<div class="">
+    <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist" style="display: flex;justify-content:space-between">
+
         <li class="nav-item">
             <a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                 aria-controls="pills-home" aria-selected="true"><i class="fas fa-globe"></i></a>
@@ -26,6 +27,8 @@
             <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
                 aria-controls="pills-profile" aria-selected="false"><i class="fas fa-user"></i></a>
         </li>
+
+        {{> _logout}}
 
     </ul>
 </div>

@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header" id="{{title}}">
+        <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{_id}}"
+                aria-expanded="true" aria-controls="{{_id}}">
+                {{infoType}}
+            </button>
+        </h2>
+    </div>
+
+    <div id="{{_id}}" class="collapse show " aria-labelledby="{{_id}}" data-parent="#accordionExample">
+        <div class="card-body text-dark">
+            {{body}}
+        </div>
+    </div>
+</div>

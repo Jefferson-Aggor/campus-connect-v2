@@ -28,14 +28,14 @@ urlDetails = {
 console.log(urlDetails);
 
 // send the connected users to the server;
-socket.on("users", (data) => {
-  usersList.innerHTML += "";
-  data.users.map((datum) => {
-    usersList.innerHTML += `
-    <p><a href='/'>${datum.username}</a></p>
-    `;
-  });
-});
+// socket.on("users", (data) => {
+//   usersList.innerHTML += "";
+//   data.users.map((datum) => {
+//     usersList.innerHTML += `
+//     <p><a href='/'>${datum.username}</a></p>
+//     `;
+//   });
+// });
 
 msgSend.addEventListener("click", function (e) {
   e.preventDefault();
