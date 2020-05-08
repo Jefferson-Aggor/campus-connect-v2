@@ -26,8 +26,9 @@
                             aria-controls="pills-setting" aria-selected="false"><i class="fas fa-cog fa-2x"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                            aria-controls="pills-contact" aria-selected="false"><i class="fas fa-user fa-2x"></i></a>
+                        <a class="nav-link" id="pills-user-profile-tab" data-toggle="pill" href="#pills-user-profile"
+                            role="tab" aria-controls="pills-user-profile" aria-selected="false"><i
+                                class="fas fa-user fa-2x"></i></a>
                     </li>
                 </ul>
 
@@ -46,16 +47,15 @@
                             {{>_dropdown}}
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                 <a class="dropdown-item"
-                                    href="/chat-room/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{firstname}} {{lastname}}">Message
-                                    Privately</a>
+                                    href="/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{firstname}} {{lastname}}">
+                                    Message Privately
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/chat-room/userprofile/{{_id}}">View
-                                    Profile</a>
+                                <a class="dropdown-item" href="/chat-room/userprofile/{{_id}}">
+                                    View Profile</a>
                             </div>
                         </div>
                     </div>
-
-
                     {{/each}}
                 </div>
                 <div class="tab-pane fade parent" id="pills-profile" role="tabpanel"
@@ -82,6 +82,10 @@
                 </div>
                 <div class="tab-pane fade" id="pills-setting" role="tabpanel" aria-labelledby="pills-setting-tab">
                     Private Chat here..
+                </div>
+                <div class="tab-pane fade" id="pills-user-profile" role="tabpanel"
+                    aria-labelledby="pills-user-profile-tab">
+                    user profile
                 </div>
             </div>
         </div>

@@ -133,7 +133,7 @@ socket.on("prev-messages", (messages) => {
                      </div>
                      <div class="messages">
                          <div class="meta">
-                             <p><a href='/chat-room/private-chat/?from=${
+                             <p><a href='/private-chat/?from=${
                                urlDetails.name
                              }&to=${
           message.username

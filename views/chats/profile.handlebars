@@ -41,7 +41,7 @@
                     </div>
 
                 </div>
-                <a href="/chat-room/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{singleUser.firstname}} {{singleUser.lastname}}"
+                <a href="/private-chat/?from={{loggedUser.firstname}} {{loggedUser.lastname}}&to={{singleUser.firstname}} {{singleUser.lastname}}"
                     class="btn btn-dark">Send Private Message</a>
             </div>
         </div>
@@ -53,9 +53,16 @@
     {{!-- user's posts  --}}
     <div class="container">
         {{#if post}}
-        {{#each post}}
-        <p>{{title}}</p>
-        {{/each}}
+        <div class="grid-3">
+            {{#each post}}
+            {{!-- check if theres an image --}}
+            {{#if file}}
+            <div class="card" style="width: 18rem;">{{> _showPostWithImage}}</div>
+            {{else}}
+            <div class="card" style="width: 18rem;">{{> _showPostWithoutImage}}</div>
+            {{/if}}
+            {{/each}}
+        </div>
         {{else}}
         <p>No post yet...</p>
         {{/if}}

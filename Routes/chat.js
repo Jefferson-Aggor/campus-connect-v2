@@ -41,10 +41,10 @@ module.exports = function (io) {
   router.get("/userprofile/:_id", requireLogin, (req, res) => {
     Post.find({ user: req.params._id })
       .populate("user")
+      .sort({ _id: -1 })
+      .limit(15)
       .then((post) => {
         User.findOne({ _id: req.params._id }).then((singleUser) => {
-          console.log(post);
-          console.log("single user", singleUser);
           res.render("chats/profile", {
             post,
             singleUser,
@@ -52,11 +52,6 @@ module.exports = function (io) {
           });
         });
       });
-  });
-
-  // private chat route.
-  router.get("/private-chat", requireLogin, (req, res) => {
-    res.send("private chatroom");
   });
 
   io.on("connection", (socket) => {

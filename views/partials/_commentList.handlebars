@@ -1,0 +1,50 @@
+<style>
+    .text {
+        cursor: pointer;
+    }
+</style>
+
+<p class="text-muted text" data-toggle="modal" data-target="#exampleModalLong">
+    View Comments
+</p>
+<div class="modal fade text-dark" id="exampleModalLong" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> posted by: {{post.user.firstname}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <img src="" alt="{{post.title}}">
+                    <div class="post-details">
+
+                    </div>
+                </div>
+                <div>
+                    <p>title: <strong>{{post.title}}</strong></p>
+                    <p>{{post.body}}</p>
+                </div>
+                <div class="comments">
+                    {{#if post.comments}}
+                    {{#each post.comments}}
+                    {{commentBody}}
+                    {{/each}}
+                    {{else}}
+                    no comment yet.
+                    {{> _modal}}
+                    {{/if}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn  btn-dark" data-toggle="modal" data-target="#exampleModal"
+                    data-whatever="">Add comment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

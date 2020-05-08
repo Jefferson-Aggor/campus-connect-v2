@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post.title}}</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container-sm  text-light">
+        <div class="">
+            <img src="" alt="{{post.title}}">
+            <div class="post-details">
+                posted by: {{post.user.firstname}}
+            </div>
+        </div>
+        <div><small class="text-muted">{{post.date}}</small></div>
+
+        {{!-- body --}}
+        {{#if post.file}}
+        <img src="/img/bg1.png" class="card-img-top" alt="...">
+        <div class="divider"></div>
+
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">{{post.body}}</p>
+            <a href="/post/details/{{_id}}" class="btn btn-primary">Go somewhere</a>
+            <p class="card-text"><small class="text-muted">{{infoType}}</small></p>
+        </div>
+
+        {{else}}
+        <img src="/img/bg1.png" class="card-img-top" alt="...">
+        <div class="" style="display: flex;">
+            <div class="mx-4">
+                <i class="fas fa-globe"></i><span>5 likes</span>
+            </div>
+            <div class="mx-4">
+                <i class="fas fa-globe"></i><span>{{post.comments.length}}</span>
+            </div>
+            <div class="mx-4">
+                <i class="fas fa-globe"></i><span>5 likes</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">title: <strong>{{post.title}}</strong></h5>
+            <p class="card-text">{{post.body}}</p>
+
+            <a href="/\/\facebook.com" class="btn btn-primary">Go somewhere</a>
+            {{> _commentList}}
+            <p class="card-text"><small class="text-muted">{{post.infoType}}</small></p>
+        </div>
+        {{/if}}
+        {{> _modal}}
+
+
+</body>
+
+</html>

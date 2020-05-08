@@ -1,6 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 const router = express.Router();
+
+// require files
+const { mongURI, cloud_name, api_secret, api_key } = require("../config/keys");
+
+cloudinary.config({
+  cloud_name: cloud_name,
+  api_key: api_key,
+  api_secret: api_secret,
+});
 
 // require models
 require("../models/Post");
@@ -8,25 +19,76 @@ require("../models/Users");
 const Post = mongoose.model("posts");
 const Users = mongoose.model("user");
 
-router.post("/user/create-info", (req, res) => {
-  const { infoType, room, title, body, file } = req.body;
-  // save posts to mongoDB;
-  const newPost = {
-    infoType,
-    relatedTo: room,
-    title,
-    body,
-    user: req.user,
-  };
-
-  new Post(newPost)
-    .save()
-    .then(() => {
-      req.flash("success_msg", `Post sent to ${newPost.relatedTo} room `);
-      res.redirect("/user/chat-form");
-    })
-    .catch((err) => console.log(err));
+// multer config;
+const up = multer({
+  dest: "./uploads",
 });
+
+router.post("/user/create-info", up.single("file"), (req, res) => {
+  const { infoType, room, title, body } = req.body;
+
+  // check to see if there's a file
+
+  if (!req.file) {
+    const newPost = {
+      infoType,
+      relatedTo: room,
+      title,
+      body,
+      user: req.user,
+    };
+
+    new Post(newPost)
+      .save()
+      .then(() => {
+        req.flash("success_msg", `Post sent to ${newPost.relatedTo} room `);
+        res.redirect("/user/chat-form");
+      })
+      .catch((err) => console.log(err));
+  } else {
+    console.log(req.file);
+    cloudinary.uploader.upload(req.file.path, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const newPost = {
+          infoType,
+          relatedTo: room,
+          title,
+          body,
+          file: result.secure_url,
+          user: req.user,
+        };
+        new Post(newPost)
+          .save()
+          .then(() => {
+            req.flash("success_msg", `Post sent to ${newPost.relatedTo} room `);
+            console.log(newPost);
+            res.redirect("/user/chat-form");
+          })
+          .catch((err) => console.log(err));
+      }
+    });
+  }
+});
+
+// post route to comments
+router.post("/post/comment/:_id", (req, res) => {
+  Post.findOne({ _id: req.params._id }).then((post) => {
+    // create comment;
+    const newComment = {
+      commentBody: req.body.commentBody,
+      commentUser: req.user,
+    };
+    post.comments.unshift(newComment);
+
+    post.save().then((newPost) => {
+      console.log(newPost);
+      res.redirect(`/post/details/${post._id}`);
+    });
+  });
+});
+
 // endpoint to get all users
 router.get("/users", (req, res) => {
   Users.find({})
