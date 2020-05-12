@@ -24,6 +24,9 @@ router.get("/post/details/:_id", (req, res) => {
     .populate("user")
     .then((post) => {
       res.render("postDetails", { post, loggedUser: req.user });
+    })
+    .catch((err) => {
+      res.send({ err: err.message });
     });
 });
 module.exports = router;

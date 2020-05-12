@@ -20,13 +20,26 @@ const io = socket(server);
 
 // use public file
 app.use(express.static(path.join(__dirname, "Public")));
-const {} = require("./helpers/hbs");
+const {
+  formatDate,
+  dateFromNow,
+  trimText,
+  nameStripper,
+  commentStripper,
+} = require("./hbs/handlebarHelpers");
 
 // middlewares
 app.engine(
   "handlebars",
   exphbs({
     handlebars: allowInsecurePrototypeAccess(Handlebars),
+    helpers: {
+      formatDate,
+      dateFromNow,
+      trimText,
+      nameStripper,
+      commentStripper,
+    },
   })
 );
 app.set("view engine", "handlebars");

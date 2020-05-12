@@ -1,4 +1,4 @@
-<div class="wrapper" style="min-height: 94vh;">
+<div class="wrapper" style="min-height: 96vh;">
     <ul class="text-center">
         <li>
             <p>Have posts , info and opportunities?</p>
@@ -9,7 +9,7 @@
     <form action="/api/user/create-info" method="POST" enctype="multipart/form-data">
         {{!-- type --}}
         <label for="">Info Type:</label>
-        <select class="my-input " name="infoType" id="infoType">
+        <select class="my-input " name="infoType" id="infoType" required>
             <option value="advertisment">Advertisment</option>
             <option value="internship">Internship</option>
             <option value="upcomingProgramme">Upcoming Programme</option>
@@ -27,13 +27,16 @@
         <label for="">Post Body:</label>
         <textarea name="body" id="" class="my-input" style="height: 12vh;"></textarea>
 
+        {{!-- link --}}
+        <input type="text" name='link' class="my-input" placeholder="Please insert link if any.">
+
         {{!-- file and preview file --}}
-        <div class="grid-2 my-3">
+        <div class=" my-3">
             <div>
-                <label for="uploadFile" class="btn btn-dark">Upload File</label>
+                <label for="uploadFile" class="btn btn-dark">Upload File</label> <span id="filename"></span>
                 <input type="file" name="file" id="uploadFile" style="display: none;">
             </div>
-            <div class="bg-dark" style="height: 10vh;"></div>
+            <div id="previewImage"></div>
         </div>
 
         <div class="shadow-sm">
@@ -42,3 +45,28 @@
 
     </form>
 </div>
+
+<script>
+    const fileInput = document.getElementById('uploadFile')
+    const previewImage = document.getElementById('previewImage')
+    const fileName = document.getElementById('filename')
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0]
+
+        console.log(file)
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = function (evt) {
+                const { result } = evt.target
+                fileName.innerText = file.name
+                previewImage.innerHTML = `<img src='${result} ' class="profile-img img-thumbnail"> `
+
+            }
+            reader.readAsDataURL(file)
+        } else {
+            previewImage.innerHTML = '';
+            fileName.innerText = '';
+        }
+    })
+</script>

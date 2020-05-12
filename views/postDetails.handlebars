@@ -9,28 +9,26 @@
 
 <body class="bg-dark">
     <div class="container-sm  text-light">
-        <div class="">
-            <img src="" alt="{{post.title}}">
+        <div class="image-and-name">
+            {{#if post.user.profileImg}}
+            <img src="/img/schoolbooks.png" class="round-img" alt="{{post.title}}">
+            {{else}}
+            <div class="nameStripper">
+                <h3 class="na">{{nameStripper post.user.firstname}}</h3>
+            </div>
+
+            {{/if}}
+
             <div class="post-details">
                 posted by: {{post.user.firstname}}
             </div>
         </div>
-        <div><small class="text-muted">{{post.date}}</small></div>
+        <div><small class="text-muted">{{formatDate post.date}}</small></div>
 
         {{!-- body --}}
         {{#if post.file}}
-        <img src="/img/bg1.png" class="card-img-top" alt="...">
-        <div class="divider"></div>
-
-        <div class="card-body">
-            <h5 class="card-title">{{post.title}}</h5>
-            <p class="card-text">{{post.body}}</p>
-            <a href="/post/details/{{_id}}" class="btn btn-primary">Go somewhere</a>
-            <p class="card-text"><small class="text-muted">{{infoType}}</small></p>
-        </div>
-
-        {{else}}
-        <img src="/img/bg1.png" class="card-img-top" alt="...">
+        <img src="{{post.file}}" class="card-img-top" alt="...">
+        {{!-- icons --}}
         <div class="" style="display: flex;">
             <div class="mx-4">
                 <i class="fas fa-globe"></i><span>5 likes</span>
@@ -42,18 +40,47 @@
                 <i class="fas fa-globe"></i><span>5 likes</span>
             </div>
         </div>
+        {{!-- post body --}}
         <div class="card-body">
-            <h5 class="card-title">title: <strong>{{post.title}}</strong></h5>
+            <h5 class="card-title">{{post.title}}</h5>
             <p class="card-text">{{post.body}}</p>
-
-            <a href="/\/\facebook.com" class="btn btn-primary">Go somewhere</a>
+            {{!-- comments --}}
             {{> _commentList}}
+            {{#if post.link}}
+            <a href="{{post.link}}" class="btn btn-primary">Visit Link</a>
+            {{/if}}
+            <p class="card-text"><small class="text-muted">{{infoType}}</small></p>
+        </div>
+        {{else}}
+
+        <div class="card-body">
+            <div class="card p-3 bg-dark ">
+                <h5 class="card-title">title: <strong>{{post.title}}</strong></h5>
+                <p class="card-text">{{post.body}}</p>
+            </div>
+
+            {{!-- icons: likes and comments --}}
+            <div class="" style="display: flex;">
+                <div class="mx-4">
+                    <i class="fas fa-globe"></i><span>5 likes</span>
+                </div>
+                <div class="mx-4">
+                    <i class="fas fa-globe"></i><span>{{post.comments.length}}</span>
+                </div>
+                <div class="mx-4">
+                    <i class="fas fa-globe"></i><span>5 likes</span>
+                </div>
+            </div>
+            {{#if post.link}}
+            <a href="{{post.link}}" class="btn btn-primary">Visit Link</a>
+            {{/if}}
+            {{> _commentList}}
+
+
             <p class="card-text"><small class="text-muted">{{post.infoType}}</small></p>
         </div>
         {{/if}}
         {{> _modal}}
-
-
 </body>
 
 </html>

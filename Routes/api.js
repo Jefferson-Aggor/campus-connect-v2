@@ -24,8 +24,12 @@ const up = multer({
   dest: "./uploads",
 });
 
+const eagerOptions = {
+  q: 60,
+};
+
 router.post("/user/create-info", up.single("file"), (req, res) => {
-  const { infoType, room, title, body } = req.body;
+  const { infoType, room, title, body, link } = req.body;
 
   // check to see if there's a file
 
@@ -35,6 +39,7 @@ router.post("/user/create-info", up.single("file"), (req, res) => {
       relatedTo: room,
       title,
       body,
+      link,
       user: req.user,
     };
 
@@ -47,7 +52,7 @@ router.post("/user/create-info", up.single("file"), (req, res) => {
       .catch((err) => console.log(err));
   } else {
     console.log(req.file);
-    cloudinary.uploader.upload(req.file.path, (err, result) => {
+    cloudinary.uploader.upload(req.file.path, eagerOptions, (err, result) => {
       if (err) {
         console.log(err);
       } else {
@@ -56,6 +61,7 @@ router.post("/user/create-info", up.single("file"), (req, res) => {
           relatedTo: room,
           title,
           body,
+          link,
           file: result.secure_url,
           user: req.user,
         };
@@ -74,19 +80,26 @@ router.post("/user/create-info", up.single("file"), (req, res) => {
 
 // post route to comments
 router.post("/post/comment/:_id", (req, res) => {
-  Post.findOne({ _id: req.params._id }).then((post) => {
-    // create comment;
-    const newComment = {
-      commentBody: req.body.commentBody,
-      commentUser: req.user,
-    };
-    post.comments.unshift(newComment);
+  Post.findOne({ _id: req.params._id })
+    .populate("user")
+    .then((post) => {
+      // create comment;
+      const newComment = {
+        commentBody: req.body.commentBody,
+        commentUser: req.user,
+      };
+      post.comments.unshift(newComment);
 
-    post.save().then((newPost) => {
-      console.log(newPost);
-      res.redirect(`/post/details/${post._id}`);
+      post
+        .save()
+        .then((newPost) => {
+          console.log(newPost);
+          res.redirect(`/post/details/${post._id}`);
+        })
+        .catch((err) => {
+          res.send({ err: err.message });
+        });
     });
-  });
 });
 
 // endpoint to get all users

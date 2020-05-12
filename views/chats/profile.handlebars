@@ -13,19 +13,22 @@
 </head>
 
 <body>
-    <div class="grid-9-3">
+    <div class="">
         <div>
-            <div class="jumbotron ">
+            <div class="jumbotron bg-dark">
                 <div class="container">
                     <div class="display-flex ">
-                        <img src="/img/bg-2.png" class="rounded img-thumbnail profile-img mx-5" alt="...">
+                        <div class="nameStripper-large">
+                            <h1>{{nameStripper singleUser.firstname}}</h1>
+                        </div>
                         <div>
+
                             <h1 class="display-4">{{singleUser.firstname}} {{singleUser.lastname}}</h1>
                             <p class="">
                                 <ul class="list-group list-group-flush bg-transparent">
                                     <li class="list-group-item bg-transparent">
                                         <i class="fas text-grey fa-school" style="margin-right: 3rem;"></i><span
-                                            class="text-dark text-capitalize"><strong>{{singleUser.school}}</strong></span>
+                                            class="text-capitalize"><strong>{{singleUser.school}}</strong></span>
                                     </li>
                                     <li class="list-group-item bg-transparent">
                                         <i class="fas text-grey fa-book" style="margin-right: 3rem;"></i><span
@@ -45,9 +48,7 @@
                     class="btn btn-dark">Send Private Message</a>
             </div>
         </div>
-        <div>
-            <img src="/img/bg-2.png" alt="">
-        </div>
+
     </div>
 
     {{!-- user's posts  --}}
@@ -57,9 +58,9 @@
             {{#each post}}
             {{!-- check if theres an image --}}
             {{#if file}}
-            <div class="card" style="width: 18rem;">{{> _showPostWithImage}}</div>
+            <div class="card">{{> _showPostWithImage}}</div>
             {{else}}
-            <div class="card" style="width: 18rem;">{{> _showPostWithoutImage}}</div>
+            <div class="card">{{> _showPostWithoutImage}}</div>
             {{/if}}
             {{/each}}
         </div>

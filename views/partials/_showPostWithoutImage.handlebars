@@ -2,8 +2,8 @@
     {{infoType}}
 </div>
 <div class="card-body">
-    <h5 class="card-title">{{title}}</h5>
-    <p class="card-text" style="min-height: 10vh;">{{body}}</p>
+    <h5 class="card-title">{{{trimText title}}}</h5>
+    <p class="card-text" style="min-height: 10vh;">{{{trimText body}}}</p>
     <a href="/post/details/{{_id}}" class="btn btn-primary">Go somewhere</a>
-    <p class="card-text"><small class="text-muted">{{date}}</small></p>
+    <p class="card-text"><small class="text-muted">{{dateFromNow date}}</small></p>
 </div>

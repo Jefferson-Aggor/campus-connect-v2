@@ -20,6 +20,9 @@ const PostSchema = new Schema({
   body: {
     type: String,
   },
+  link: {
+    type: String,
+  },
   file: {
     type: String,
   },

@@ -19,23 +19,29 @@
             </div>
             <div class="modal-body">
                 <div class="">
-                    <img src="" alt="{{post.title}}">
+                    <div class="image-and-name">
+                        <img src="/img/schoolbooks.png" class="round-img" alt="{{post.title}}">
+                        <div class="post-details">
+                            posted by: {{post.user.firstname}}
+                        </div>
+                    </div>
                     <div class="post-details">
 
                     </div>
                 </div>
                 <div>
-                    <p>title: <strong>{{post.title}}</strong></p>
-                    <p>{{post.body}}</p>
+                    <p class="text-muted">title: {{post.title}}</p>
+                    <p>body: <span class="text-black">{{post.body}}</span> </p>
                 </div>
+                <div class="text-muted">{{post.comments.length}} comment(s)</div>
                 <div class="comments">
                     {{#if post.comments}}
                     {{#each post.comments}}
-                    {{commentBody}}
+                    {{> _commentBody}}
                     {{/each}}
                     {{else}}
                     no comment yet.
-                    {{> _modal}}
+
                     {{/if}}
                 </div>
             </div>
