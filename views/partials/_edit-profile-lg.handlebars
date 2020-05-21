@@ -1,0 +1,98 @@
+<div class="nameStripper-large">
+    <h1>{{nameStripper loggedUser.firstname}}</h1>
+</div>
+
+<div class="mx-3 mt-5">
+    <form action="/user/edit/{{loggedUser._id}}?_method=PUT" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+
+        <div class="shadow-sm">
+            <input type="text" class="my-input" name="firstname" placeholder="firstname"
+                value="{{loggedUser.firstname}}" required>
+        </div>
+        <div class="shadow-sm">
+            <input type="text" class="my-input " name="lastname" placeholder="lastname" value="{{loggedUser.lastname}}">
+        </div>
+
+
+        <div class="shadow-sm my text-grey">
+            <select class="my-input text-capitalize text-grey" name="school" required>
+                <option value="{{loggedUser.school}}">Select School</option>
+                <option value="university of ghana">University of Ghana</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="shadow-sm">
+            <select class="my-input text-capitalize" name="programme" required>
+                <option selected value="{{loggedUser.programme}}">Select Programme</option>
+                <option value="bsc mechanical engineering">Bsc Mechanical engineering</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="shadow">
+            <input type="submit" value="Update" class="btn btn-block btn-dark ">
+        </div>
+    </form>
+
+    or
+    {{> _errors}}
+    <a href="#" class="text-danger " id="deleteAccount">Delete Account</a>
+    <div id="hiddenForm">
+        <form action="/user/delete/{{loggedUser._id}}?_method=DELETE" method="post" id="deleteForm">
+            <div class=" alert-warning p-3" role="alert">enter <strong
+                    class="alert-link alert-header">{{loggedUser.firstname}}-{{loggedUser.lastname}}
+                </strong>
+                to confirm delete
+                <div class="divider"></div>
+                <h5><strong>Action NOT reversible</strong></h5>
+            </div>
+            <input type="hidden" id="confirmInput" name="confirmDelete"
+                value="{{loggedUser.firstname}}-{{loggedUser.lastname}}">
+            <input type="text" name="deleteValue" id="actualInput">
+            <p class="text-danger" id="notifier"></p>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="DELETE" id="submitDelete" class="btn btn-danger ">
+            <input type="submit" value="Cancel" id="cancelDelete" class="btn btn-dark  ">
+        </form>
+    </div>
+
+
+    <div style="min-height: 7rem;"></div>
+</div>
+
+<script>
+    document.querySelector('#hiddenForm').style.display = 'none';
+
+    document.querySelector('#deleteAccount').addEventListener('click', (e) => {
+        e.preventDefault()
+        document.querySelector('#hiddenForm').style.display = 'block';
+    })
+    document.querySelector('#cancelDelete').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('#hiddenForm').style.display = 'none';
+    })
+
+
+    document.querySelector('#deleteForm').addEventListener('submit', (e) => {
+
+        let actualInput = document.querySelector('#actualInput').value;
+        let hiddenInput = document.querySelector('#confirmInput').value
+
+        if (actualInput === hiddenInput) {
+            console.log(true)
+        }
+        else {
+            e.preventDefault();
+            document.querySelector('#notifier').innerText = 'Values do not match'
+            setTimeout(() => {
+                document.querySelector('#notifier').innerText = ''
+            }, 2000)
+        }
+
+    })
+
+
+
+</script>

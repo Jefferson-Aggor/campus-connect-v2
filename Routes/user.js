@@ -88,6 +88,44 @@ router.post("/register", (req, res) => {
   }
 });
 
+// user edit profile;
+router.put("/edit/:_id", (req, res) => {
+  const { firstname, lastname, school, programme } = req.body;
+
+  User.findOne({ _id: req.params._id }).then((user) => {
+    (user.firstname = firstname),
+      (user.lastname = lastname),
+      (user.school = school),
+      (user.programme = programme);
+
+    user.save().then((user) => {
+      console.log(user);
+      req.flash("success_msg", "Profile Updated");
+      res.redirect(
+        `/chat-room/${user.programme}?username=${user.firstname}${user.lastname}&room=${user.programme}`
+      );
+    });
+  });
+});
+
+// delete user;
+router.delete("/delete/:_id", (req, res) => {
+  const { confirmDelete, deleteValue } = req.body;
+  let errors = [];
+  if (confirmDelete !== deleteValue) {
+    console.log("values do not match");
+    errors.push({ msg: `values do not match ` });
+  } else {
+    User.deleteOne({ _id: req.params._id }).then(() => {
+      console.log("User account deleted");
+      req.flash("success_msg", "User account deleted");
+      res.redirect("/");
+    });
+  }
+
+  console.log(req.body);
+});
+
 // user login
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {

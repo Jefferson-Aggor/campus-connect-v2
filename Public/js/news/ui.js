@@ -1,11 +1,19 @@
 class UI {
   constructor() {
     this.output = document.getElementById("news-output");
-    this.booksoutput = document.getElementById("books-output");
+    this.booksOutputLg = document.getElementById("#books-output");
+    this.booksOutput = document.querySelector(".books-output");
   }
   setTime(time) {
     moment(time).format("dddd, MMMM Do YYYY, h:mm a");
   }
+  trimText = (text) => {
+    if (text.length > 150) {
+      return text.substring(0, 150) + "...";
+    } else {
+      return text;
+    }
+  };
 
   insertData(data) {
     this.output.innerHTML += `<div class="card mb-3 text-dark">
@@ -30,7 +38,8 @@ class UI {
     parent.insertBefore(div, before);
   }
   clearBooks() {
-    this.booksoutput.innerHTML = "";
+    this.booksOutputLg.innerHTML = "";
+    this.booksOutput.innerHTML = "";
   }
   clearNews() {
     this.output.innerHTML = "";
@@ -38,7 +47,7 @@ class UI {
 
   checkPDF(data) {
     if (data.accessInfo.pdf.acsTokenLink) {
-      this.booksoutput.innerHTML += `
+      this.booksOutputLg.innerHTML += `
             <div class="card text-dark book-card">
                 <div class="grid-2">
                     <img src="${data.volumeInfo.imageLinks.thumbnail}" alt="">
@@ -51,7 +60,7 @@ class UI {
                  <a href="${data.accessInfo.pdf.acsTokenLink}" class="btn btn-primary mt-1" target="_blank" rel="noopener noreferrer">Download PDF</a> 
         </div>`;
     } else {
-      this.booksoutput.innerHTML += `
+      this.booksOutputLg.innerHTML += `
             <div class="card text-dark book-card">
                 <div class="grid-2">
                     <img src="${data.volumeInfo.imageLinks.thumbnail}" alt="">
@@ -68,7 +77,7 @@ class UI {
     }
 
     if (data.accessInfo.pdf.acsTokenLink && data.accessInfo.webReaderLink) {
-      this.booksoutput.innerHTML += `
+      this.booksOutputLg.innerHTML += `
             <div class="card text-dark book-card hide">
             <div class="grid-2">
                 <img src="${data.volumeInfo.imageLinks.thumbnail}" alt="">
@@ -98,5 +107,22 @@ class UI {
                 
         </div>`;
     }
+  }
+
+  checkPDFSM(data) {
+    this.booksOutput.innerHTML += `
+    <div class="card">
+  <img class="card-img-top" src="${
+    data.volumeInfo.imageLinks.thumbnail
+  }" alt="${data.volumeInfo.title}">
+  <div class="card-body">
+    <p class='text-muted'>${data.volumeInfo.title}</p>
+    <p class="card-text">${this.trimText(data.volumeInfo.description)}</p>
+    <a href="${
+      data.accessInfo.webReaderLink
+    }" class="btn btn-dark mt-1" target="_blank" rel="noopener noreferrer">Read or Download </a>
+  </div>
+</div>
+    `;
   }
 }

@@ -44,6 +44,10 @@ a {
 a:hover {
   color: #666;
 }
+/* scrollbar */
+/* ::-webkit-scrollbar {
+  width: 100px;
+} */
 
 ul {
   list-style: none;
@@ -699,13 +703,12 @@ table th {
 
 .text-messages {
   display: flex;
-
+  max-width: 35vw;
   margin: 0.8rem 0;
 }
 
 .text-messages .messages {
   border-radius: 10px;
-  max-width: 35vw;
 }
 
 .text-messages .messages .meta {
@@ -735,13 +738,14 @@ table th {
   margin-right: 8px;
 }
 
-.chat-from-them {
+.chat-from-others {
   background: #f3f3f3;
-
   color: #333;
   padding: 0.5rem;
+  border-radius: 10px;
   float: left;
   clear: both;
+  margin-left: 8px;
 }
 
 .meta {
@@ -757,6 +761,22 @@ table th {
   align-items: center;
   max-width: 20vw;
 }
+
+/* chat sm */
+.chat-container {
+  min-height: 80vh;
+  position: relative;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+.input-section {
+  display: flex;
+}
+#file-sm,
+#send-sm {
+  display: none;
+}
+
 #news-output {
   height: 80vh;
   overflow-y: scroll;
@@ -839,6 +859,14 @@ table th {
   overflow: scroll;
   min-height: 120vh;
 }
+
+#scrollToBottom {
+  position: fixed;
+  bottom: 150px;
+  right: 10px;
+  border-radius: 50% !important;
+}
+
 /* Mobile Styles */
 
 @media (max-width: 700px) {
@@ -904,6 +932,7 @@ table th {
     font-size: 1.1rem;
   }
   .nameStripper {
+    margin: 0 0.5rem;
     width: 3rem;
     height: 3rem;
   }
@@ -915,5 +944,17 @@ table th {
   }
   .hide-on-large {
     display: block;
+  }
+  .space-between {
+    max-width: 100%;
+  }
+  .text-messages {
+    max-width: 80%;
+  }
+  .meta {
+    min-width: 80%;
+  }
+  #scrollToBottom {
+    bottom: 180px;
   }
 }

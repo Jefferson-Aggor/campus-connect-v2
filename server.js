@@ -6,7 +6,9 @@ const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
 const session = require("express-session");
+const cors = require("cors");
 const socket = require("socket.io");
 const http = require("http");
 const passport = require("passport");
@@ -67,6 +69,11 @@ app.use((req, res, next) => {
   res.locals.loggedUser = req.user;
   next();
 });
+// method override
+app.use(methodOverride("_method"));
+
+// cors
+app.use(cors());
 
 // init passport
 app.use(passport.initialize());

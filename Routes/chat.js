@@ -67,17 +67,15 @@ module.exports = function (io) {
           console.log("messages loaded");
           socket.emit("prev-messages", message);
           socket.emit("chatbot-messages", "Welcome to campus connect chat");
+          // chatbot messages
+          io.to(user.room).emit("users", { users: getAllUsers(user.room) });
+          socket.broadcast
+            .to(user.room)
+            .emit("chatbot-messages", `${user.username} joined`);
         })
         .catch((err) => {
           console.log(err);
         });
-
-      // chatbot messages
-      io.to(user.room).emit("users", { users: getAllUsers(user.room) });
-
-      socket.broadcast
-        .to(user.room)
-        .emit("chatbot-messages", `${user.username} joined`);
     });
 
     // client messages
@@ -90,17 +88,17 @@ module.exports = function (io) {
         msgType: "text",
       };
 
-      new Chat(newMessage)
-        .save()
-        .then(() => {
-          console.log(newMessage);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // new Chat(newMessage)
+      //   .save()
+      //   .then(() => {
+      //     console.log(newMessage);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
       io.to(urlDetails.room).emit(
         "text-messages",
-        formatMessage(urlDetails.name, msg),
+        formatMessage(urlDetails.name, msg, urlDetails.id),
         urlDetails
       );
     });
@@ -140,8 +138,7 @@ module.exports = function (io) {
       );
       io.to(user.room).emit(
         "image-from-server",
-        formatMessage(user.username, ""),
-        image
+        formatMessage(user.username, image.fileEnctype, image.userId)
       );
     });
     socket.on("video", (video) => {
@@ -173,8 +170,7 @@ module.exports = function (io) {
       );
       io.to(user.room).emit(
         "video-from-server",
-        formatMessage(user.username, ""),
-        video
+        formatMessage(user.username, video.fileEnctype, video.userId)
       );
     });
     socket.on("audio", (audio) => {
@@ -206,8 +202,7 @@ module.exports = function (io) {
       );
       io.to(user.room).emit(
         "audio-from-server",
-        formatMessage(user.username, ""),
-        audio
+        formatMessage(user.username, audio.fileEnctype, audio.userId)
       );
     });
     socket.on("pdf", (pdf) => {
@@ -239,8 +234,7 @@ module.exports = function (io) {
       );
       io.to(user.room).emit(
         "pdf-from-server",
-        formatMessage(user.username, ""),
-        pdf
+        formatMessage(user.username, pdf.fileEnctype, pdf.userId)
       );
     });
 
