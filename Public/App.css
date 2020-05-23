@@ -45,9 +45,9 @@ a:hover {
   color: #666;
 }
 /* scrollbar */
-/* ::-webkit-scrollbar {
-  width: 100px;
-} */
+::-webkit-scrollbar {
+  width: 1px;
+}
 
 ul {
   list-style: none;
@@ -763,8 +763,11 @@ table th {
 }
 
 /* chat sm */
+.chat-wrapper {
+  height: max-content;
+}
 .chat-container {
-  min-height: 80vh;
+  max-height: 80vh;
   position: relative;
   overflow-y: scroll;
   scroll-behavior: smooth;
