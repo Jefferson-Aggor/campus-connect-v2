@@ -10,15 +10,10 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const cors = require("cors");
 const socket = require("socket.io");
-const http = require("http");
 const passport = require("passport");
 const flash = require("connect-flash");
 const path = require("path");
 const app = express();
-
-// socket io
-const server = http.createServer(app);
-const io = socket(server);
 
 // use public file
 app.use(express.static(path.join(__dirname, "Public")));
@@ -82,7 +77,6 @@ app.use(passport.session());
 // require files
 const user = require("./Routes/user");
 const index = require("./Routes/index");
-const chatRoom = require("./Routes/chat")(io);
 const api = require("./Routes/api");
 const { mongURI } = require("./config/keys");
 
@@ -98,8 +92,14 @@ mongoose
 
 app.use("/", index);
 app.use("/user", user);
-app.use("/chat-room", chatRoom);
 app.use("/api", api);
 
 const PORT = process.env.PORT || 7000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);
+
+// socket io
+const io = socket(server);
+const chatRoom = require("./Routes/chat")(io);
+app.use("/chat-room", chatRoom);
