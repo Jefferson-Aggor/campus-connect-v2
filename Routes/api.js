@@ -116,6 +116,7 @@ router.get("/users", (req, res) => {
 // endpoint to get all posts
 router.get("/posts", (req, res) => {
   Post.find({})
+    .populate("user")
     .then((post) => {
       res.json(post);
     })

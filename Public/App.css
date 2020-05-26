@@ -729,7 +729,7 @@ table th {
 }
 
 .chat-from-me {
-  background: #111;
+  background: #333;
   color: #fff;
   padding: 0.5rem;
   border-radius: 10px;
@@ -764,17 +764,20 @@ table th {
 
 /* chat sm */
 .chat-wrapper {
-  height: max-content;
+  height: 100vh;
 }
 .chat-container {
-  max-height: 80vh;
+  height: 82vh;
   position: relative;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
 .input-section {
   display: flex;
+  padding: 0 !important;
+  height: 10vh;
 }
+
 #file-sm,
 #send-sm {
   display: none;
@@ -844,14 +847,16 @@ table th {
 }
 
 .display-bottom {
-  background: #111;
+  background: #f1f1f1;
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
   position: fixed;
-  bottom: -15px;
+  top: 0;
   left: 0;
+  margin-bottom: 10rem !important;
   width: 100%;
+  z-index: 9;
 }
 
 .display-bottom ul {
@@ -953,6 +958,16 @@ table th {
   }
   .text-messages {
     max-width: 80%;
+  }
+  .chat-from-me {
+    padding: 0.2rem;
+    border-radius: 5px;
+    margin-right: 4px;
+  }
+  .chat-from-others {
+    padding: 0.2rem;
+    border-radius: 5px;
+    margin-left: 4px;
   }
   .meta {
     min-width: 80%;

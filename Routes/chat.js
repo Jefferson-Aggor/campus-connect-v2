@@ -33,7 +33,17 @@ module.exports = function (io) {
     User.find({ programme: req.params.programme })
       .populate("posts")
       .then((user) => {
-        res.render("chats/chatroom", { user, loggedUser: req.user });
+        Post.find({ relatedTo: req.params.programme })
+          .populate("user")
+          .sort({ _id: -1 })
+          .limit(15)
+          .then((posts) => {
+            console.log(posts);
+            res.render("chats/chatroom", { user, posts, loggedUser: req.user });
+          });
+      })
+      .catch((err) => {
+        res.send("Error from connection");
       });
   });
 
@@ -51,7 +61,8 @@ module.exports = function (io) {
             loggedUser: req.user,
           });
         });
-      });
+      })
+      .catch((err) => res.send("Error from connection"));
   });
 
   io.on("connection", (socket) => {

@@ -108,11 +108,9 @@ searchBooksForm.addEventListener("submit", function (e) {
         }
       })
       .catch((err) => {
-        spinner.innerHTML = `<span class="alert shadow  alert-dismissible fade show">${err}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </span>`;
+        spinner.innerHTML = `<span class='text-danger'> ${err.message}</span>`;
       });
   }
 });
+
+data.getPosts().then((posts) => console.log(posts));

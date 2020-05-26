@@ -1,29 +1,5 @@
 <div class="hide-on-large">
-    {{> _errors}}
-    <div class="tab-content " id="pills-tabContent">
-        <div class="tab-pane fade " id="pills-home-sm" role="tabpanel" aria-labelledby="pills-home-tab">
-
-            {{> _userlist-sm}}
-            <div style="height:5rem"></div>
-
-        </div>
-        <div class="tab-pane fade" id="pills-profile-sm" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-            {{> _search-news-sm}}
-            <div style="height:7rem"></div>
-
-        </div>
-        <div class="tab-pane fade show active" id="pills-contact-sm" role="tabpanel"
-            aria-labelledby="pills-contact-tab">{{> _chat-sm}}</div>
-        <div class="tab-pane fade" id="pills-news-sm" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
-        <div class="tab-pane fade" id="pills-userprofile-sm" role="tabpanel" aria-labelledby="pills-contact-tab">
-            {{> _edit-profile}}
-        </div>
-    </div>
-
-
-
-    <div class=" bg-dark">
+    <div class=" bg-light shadow-md">
         <ul class="nav nav-pills mb-3 display-bottom" id="pills-tab" role="tablist" style="display: flex;">
             <li class="nav-item">
                 <a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-home-sm" role="tab"
@@ -48,5 +24,41 @@
         </ul>
 
     </div>
+    {{> _errors}}
+    <div class="tab-content " id="pills-tabContent" style='margin-top: 8vh;'>
+        <div class="tab-pane fade " id="pills-home-sm" role="tabpanel" aria-labelledby="pills-home-tab">
+
+            {{> _userlist-sm}}
+            <div style="height:5rem"></div>
+
+        </div>
+        <div class="tab-pane fade" id="pills-profile-sm" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+            {{> _search-news-sm}}
+            <div style="height:7rem"></div>
+
+        </div>
+        <div class="tab-pane fade show active" id="pills-contact-sm" role="tabpanel"
+            aria-labelledby="pills-contact-tab">
+            {{> _chat-sm}}
+        </div>
+        <div class="tab-pane fade" id="pills-news-sm" role="tabpanel" aria-labelledby="pills-contact-tab">
+            {{#each posts}}
+            {{#if file}}
+            {{> _showPostWithImage}}
+            {{else}}
+            {{> _showPostWithoutImage}}
+            {{/if}}
+            {{/each}}
+
+        </div>
+        <div class="tab-pane fade" id="pills-userprofile-sm" role="tabpanel" aria-labelledby="pills-contact-tab">
+            {{> _edit-profile}}
+        </div>
+    </div>
+
+
+
+
 
 </div>
