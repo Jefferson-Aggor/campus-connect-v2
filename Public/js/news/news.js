@@ -24,7 +24,7 @@ class Data {
   }
   async getPosts() {
     const response = await fetch(
-      `http://campusconnectversion.herokuapp.com/api/posts`
+      `https://campusconnectversion.herokuapp.com/api/posts`
     );
     const responseData = await response.json();
 
