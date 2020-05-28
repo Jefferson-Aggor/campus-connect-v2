@@ -17,6 +17,11 @@
                                 class="fas fa-book-reader fa-2x"></i></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-question" role="tab"
+                            aria-controls="pills-profile" aria-selected="false"><i
+                                class="fas fa-book-reader fa-2x"></i></a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
                             aria-controls="pills-contact" aria-selected="false"><i
                                 class="fab fa-neos fa-2x"></i></i>news</a>
@@ -66,6 +71,35 @@
                     <div id="books-output"></div>
 
                 </div>
+
+                {{!-- questions --}}
+                <div class="tab-pane fade parent" id="pills-question" role="tabpanel"
+                    aria-labelledby="pills-profile-tab">
+                    <p>Want help with a question?</p>
+                    <button class="btn btn-dark btn-block" id="post-question">Post Question</button>
+                    <div id="questions-form" class="questions-form">
+                        <form action="/api/questions" method="post" enctype="multipart/form-data">
+                            <div class="shadow-sm">
+                                <input type="text" name="topic" class="my-input" id="question-topic"
+                                    placeholder="Topic of question">
+                            </div>
+                            <div class="shadow-sm">
+                                <textarea name="body" class="my-input" id="question-body" cols="30" rows="10"
+                                    placeholder="What's the question?" placeholder="Whats the question?"></textarea>
+                            </div>
+                            <p class="text-center">want to upload an image instead?</p>
+                            <label for="question-image" class="btn btn-dark">Upload Image</label>
+                            <input type="file" name="file" id="question-image">
+                            <input type="submit" value="Ask question..." class="btn btn-dark">
+                            <button class="btn btn-danger" id="cancel-question">Cancel</button>
+                        </form>
+                    </div>
+
+                    <div id="posted-questions"></div>
+
+                </div>
+
+
                 <div class="tab-pane fade parent" id="pills-contact" role="tabpanel"
                     aria-labelledby="pills-contact-tab">
                     <label for="select-news">select news category</label>
@@ -119,3 +153,29 @@
 
     </div>
 </div>
+<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('body')
+</script>
+
+<script>
+    const askQuestion = document.getElementById('post-question')
+    const cancelQuestion = document.getElementById('cancel-question')
+    const questionForm = document.getElementById('questions-form');
+    const topic = document.getElementById('question-topic');
+    const questionBody = document.getElementById('question-body')
+    questionForm.style.display = 'none';
+
+    askQuestion.addEventListener('click', function (e) {
+        e.preventDefault();
+        questionForm.style.display = 'block';
+    })
+    cancelQuestion.addEventListener('click', function (e) {
+        e.preventDefault();
+        topic.innerHTML = '';
+        questionBody.innerHTML = ''
+        questionForm.style.display = 'none';
+    })
+
+
+</script>

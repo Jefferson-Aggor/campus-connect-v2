@@ -45,6 +45,22 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      commentReply: [
+        {
+          replyBody: {
+            type: String,
+            required: true,
+          },
+          replyUser: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
+          replyDate: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
     },
   ],
 });

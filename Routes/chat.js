@@ -38,7 +38,6 @@ module.exports = function (io) {
           .sort({ _id: -1 })
           .limit(15)
           .then((posts) => {
-            console.log(posts);
             res.render("chats/chatroom", { user, posts, loggedUser: req.user });
           });
       })
@@ -65,9 +64,10 @@ module.exports = function (io) {
       .catch((err) => res.send("Error from connection"));
   });
 
+  // socket
+
   io.on("connection", (socket) => {
     console.log("connected");
-
     // join chat
     socket.on("join-chat", (details) => {
       const user = joinUser(socket.id, details.name, details.room);
