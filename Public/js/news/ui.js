@@ -3,6 +3,7 @@ class UI {
     this.output = document.getElementById("news-output");
     this.booksOutputLg = document.getElementById("#books-output");
     this.booksOutput = document.querySelector(".books-output");
+    this.questionsOutput = document.getElementById("posted-questions");
   }
   setTime(time) {
     moment(time).format("dddd, MMMM Do YYYY, h:mm a");
@@ -124,5 +125,31 @@ class UI {
   </div>
 </div>
     `;
+  }
+
+  questionsLg(data) {
+    //  Check if image
+    if (data.file) {
+      console.log(data.file);
+      this.questionsOutput.innerHTML += `
+      <div class="card" >
+      <img src="${data.file}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">${data.topic}</h5>
+        ${data.body}
+        
+      </div>
+    </div>
+      `;
+    } else {
+      this.questionsOutput.innerHTML += `
+      <div class="card" >
+      <div class="card-body">
+        <h5 class="card-title">${data.topic}</h5>
+        <p class="card-text">${data.body}</p>
+      </div>
+    </div>
+      `;
+    }
   }
 }

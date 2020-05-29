@@ -157,6 +157,7 @@ router.post(
         topic,
         body,
         user: req.user._id,
+        relatedTo: req.user.programme,
       };
       saveToMongoDB(
         Questions,
@@ -174,6 +175,7 @@ router.post(
             topic,
             body,
             user: req.user._id,
+            relatedTo: req.user.programme,
             file: result.secure_url,
           };
           saveToMongoDB(
@@ -240,12 +242,42 @@ router.get("/questions", (req, res) => {
     .populate("user")
     .sort({ _id: -1 })
     .then((questions) => {
-      console.log(questions);
       res.json(questions);
     })
     .catch((err) => {
       res.json({ error: err.message });
     });
 });
+// get a questions related to a room;
+router.get("/questions/:programme", (req, res) => {
+  Questions.find({ relatedTo: req.params.programme })
+    .populate("user")
+    .limit(15)
+    .sort({ _id: -1 })
+    .then((questions) => {
+      if (questions) {
+        res.json(questions);
+      } else {
+        res.json({ msg: "No questions yet" });
+      }
+    })
+    .catch((err) => {
+      res.json({ error: err.message });
+    });
+});
 
+// get a single question;
+router.get("/questions/:_id", (req, res) => {
+  Questions.findOne({ _id: req.params._id })
+    .then((question) => {
+      if (!question) {
+        res.json({ msg: "No question" });
+      } else {
+        res.json(question);
+      }
+    })
+    .catch((err) => {
+      res.json({ error: err.message });
+    });
+});
 module.exports = router;

@@ -73,7 +73,7 @@
                 </div>
 
                 {{!-- questions --}}
-                <div class="tab-pane fade parent" id="pills-question" role="tabpanel"
+                <div class="tab-pane fade parent scroll" id="pills-question" role="tabpanel"
                     aria-labelledby="pills-profile-tab">
                     <p>Want help with a question?</p>
                     <button class="btn btn-dark btn-block" id="post-question">Post Question</button>
@@ -164,17 +164,21 @@
     const questionForm = document.getElementById('questions-form');
     const topic = document.getElementById('question-topic');
     const questionBody = document.getElementById('question-body')
+    const questionOutput = document.getElementById('posted-questions')
+
     questionForm.style.display = 'none';
 
     askQuestion.addEventListener('click', function (e) {
         e.preventDefault();
         questionForm.style.display = 'block';
+        questionOutput.style.display ='none'
     })
     cancelQuestion.addEventListener('click', function (e) {
         e.preventDefault();
         topic.innerHTML = '';
         questionBody.innerHTML = ''
         questionForm.style.display = 'none';
+        questionOutput.style.display = 'block'
     })
 
 

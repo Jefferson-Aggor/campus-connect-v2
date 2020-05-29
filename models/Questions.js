@@ -14,6 +14,10 @@ const QuestionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user",
   },
+  relatedTo: {
+    type: String,
+    required: true,
+  },
   file: {
     type: String,
     required: false,

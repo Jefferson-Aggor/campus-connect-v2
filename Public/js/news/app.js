@@ -15,6 +15,16 @@ loader.style.display = "none";
 newsLoader.style.display = "none";
 spinner.style.display = "none";
 
+// Get data from Url;
+
+const urlParams = new URL(document.location).searchParams;
+
+const urlDetails = {
+  username: urlParams.get("username"),
+  id: urlParams.get("id"),
+  room: urlParams.get("room"),
+};
+
 // initilize class
 const data = new Data();
 const ui = new UI();
@@ -113,4 +123,17 @@ searchBooksForm.addEventListener("submit", function (e) {
   }
 });
 
+// Get Posts related to room;
 data.getPosts().then((posts) => console.log(posts));
+
+// Get questions related to room;
+data.getQuestions(urlDetails.room).then((questions) => {
+  if (questions) {
+    questions.map((question) => {
+      console.log(question);
+      ui.questionsLg(question);
+    });
+  } else {
+    console.log("No Question");
+  }
+});

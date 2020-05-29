@@ -30,4 +30,13 @@ class Data {
 
     return responseData;
   }
+  async getQuestions(relatedTo) {
+    const response = await fetch(
+      `https://campusconnectversion.herokuapp.com/api/questions/${relatedTo}`
+    );
+
+    const responseData = await response.json();
+
+    return responseData;
+  }
 }
