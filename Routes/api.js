@@ -33,7 +33,6 @@ const saveToMongoDB = (schema, objectToSave, res, url) => {
   return new schema(objectToSave)
     .save()
     .then((item) => {
-      console.log(item);
       res.redirect(url);
     })
     .catch((err) => {
@@ -190,6 +189,54 @@ router.post(
   }
 );
 
+// router to post answers to questions
+router.post(
+  "/question/:_id",
+  multerDest("./questions/solved-question").single("file"),
+  (req, res) => {
+    Questions.findOne({ _id: req.params._id }).then((question) => {
+      if (!req.file) {
+        const newQuestion = {
+          solvedBy: req.user._id,
+          solution: req.body.solution,
+        };
+        question.solutions.unshift(newQuestion);
+
+        question
+          .save()
+          .then((newQuestion) => {
+            console.log(newQuestion);
+            req.flash("success_msg", "Answer Submitted");
+            res.redirect(`/questions/${question._id}`);
+          })
+          .catch((err) => res.send(err));
+      } else {
+        cloudinary.uploader.upload(
+          req.file.path,
+          eagerOptions,
+          (err, result) => {
+            const newQuestion = {
+              solvedBy: req.user._id,
+              solution: req.body.solution,
+              file: result.secure_url,
+            };
+            question.solutions.unshift(newQuestion);
+
+            question
+              .save()
+              .then((newQuestion) => {
+                console.log(newQuestion);
+                req.flash("success_msg", "Answer Submitted");
+                res.redirect(`/questions/${question._id}`);
+              })
+              .catch((err) => res.send(err));
+          }
+        );
+      }
+    });
+  }
+);
+
 // endpoint to get all users
 router.get("/users", (req, res) => {
   Users.find({})
@@ -270,11 +317,11 @@ router.get("/questions/:programme", (req, res) => {
 router.get("/questions/:_id", (req, res) => {
   Questions.findOne({ _id: req.params._id })
     .then((question) => {
-      if (!question) {
+      if (question.length === 0) {
         res.json({ msg: "No question" });
-      } else {
-        res.json(question);
       }
+
+      res.json(question);
     })
     .catch((err) => {
       res.json({ error: err.message });

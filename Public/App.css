@@ -823,8 +823,8 @@ table th {
   align-items: center;
   justify-content: center;
   background-color: #000;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
 }
 .nameStripper-large {
@@ -881,6 +881,17 @@ table th {
   border-radius: 50% !important;
 }
 
+/* questions */
+.general-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.general-display-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /* Mobile Styles */
 
 @media (max-width: 700px) {

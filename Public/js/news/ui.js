@@ -3,7 +3,8 @@ class UI {
     this.output = document.getElementById("news-output");
     this.booksOutputLg = document.getElementById("#books-output");
     this.booksOutput = document.querySelector(".books-output");
-    this.questionsOutput = document.getElementById("posted-questions");
+    this.questionsOutput = document.querySelector("#posted-questions");
+    this.questionsOutputSM = document.querySelector("#posted-questions-sm");
   }
   setTime(time) {
     moment(time).format("dddd, MMMM Do YYYY, h:mm a");
@@ -40,6 +41,8 @@ class UI {
   }
   clearBooks() {
     this.booksOutputLg.innerHTML = "";
+  }
+  clearBooksSM() {
     this.booksOutput.innerHTML = "";
   }
   clearNews() {
@@ -137,7 +140,11 @@ class UI {
       <div class="card-body">
         <h5 class="card-title">${data.topic}</h5>
         ${data.body}
-        
+        <div class="general-display-flex">
+            <a href="#"><i class="fas fa-globe ml-2"></i></a>
+           
+        </div>
+        <a href='/questions/${data._id}' class='btn btn-dark btn-block'>View Solution</a>
       </div>
     </div>
       `;
@@ -147,6 +154,46 @@ class UI {
       <div class="card-body">
         <h5 class="card-title">${data.topic}</h5>
         <p class="card-text">${data.body}</p>
+        <div class="general-display-flex">
+            <a href="#"><i class="fas fa-globe ml-2"></i></a>
+           
+        </div>
+        <a href='/questions/${data._id}' class='btn btn-dark btn-block'>View Solution</a>
+      </div>
+    </div>
+      `;
+    }
+  }
+
+  questionsSM(data) {
+    //  Check if image
+    if (data.file) {
+      console.log(data.file);
+      this.questionsOutputSM.innerHTML += `
+      <div class="card" >
+      <img src="${data.file}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">${data.topic}</h5>
+        ${data.body}
+        <div class="general-display-flex">
+            <a href="#"><i class="fas fa-globe ml-2"></i></a>
+           
+        </div>
+        <a href='/questions/${data._id}' class='btn btn-dark btn-block'>View Solution</a>
+      </div>
+    </div>
+      `;
+    } else {
+      this.questionsOutputSM.innerHTML += `
+      <div class="card" >
+      <div class="card-body">
+        <h5 class="card-title">${data.topic}</h5>
+        <p class="card-text">${data.body}</p>
+        <div class="general-display-flex">
+            <a href="#"><i class="fas fa-globe ml-2"></i></a>
+           
+        </div>
+        <a href='/questions/${data._id}' class='btn btn-dark btn-block'>View Solution</a>
       </div>
     </div>
       `;

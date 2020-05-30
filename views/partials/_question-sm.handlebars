@@ -1,0 +1,48 @@
+<p>Want help with a question?</p>
+<button class="btn btn-dark btn-block" id="post-question-sm">Post Question</button>
+<div id="questions-form-sm" class="questions-form">
+    <form action="/api/questions" method="post" enctype="multipart/form-data">
+        <div class="shadow-sm">
+            <input type="text" name="topic" class="my-input" id="question-topic-sm" placeholder="Topic of question">
+        </div>
+        <div class="shadow-sm">
+            <textarea name="body" class="my-input" id="question-body-sm" cols="30" rows="10"
+                placeholder="What's the question?" placeholder="Whats the question?"></textarea>
+        </div>
+        <p class="text-center">want to upload an image instead?</p>
+        <label for="question-image" class="btn btn-dark">Upload Image</label>
+        <input type="file" name="file" id="question-image-sm">
+        <input type="submit" value="Ask question..." class="btn btn-dark">
+        <button class="btn btn-danger" id="cancel-question-sm">Cancel</button>
+    </form>
+</div>
+
+<div id="posted-questions-sm"></div>
+
+
+
+<script>
+    const askQuestionSM = document.getElementById('post-question-sm')
+    const cancelQuestionSM = document.getElementById('cancel-question-sm')
+    const questionFormSM = document.getElementById('questions-form-sm');
+    const topicSM = document.getElementById('question-topic-sm');
+    const questionBodySM = document.getElementById('question-body-sm')
+    const questionOutputSM = document.getElementById('posted-questions-sm')
+
+    questionFormSM.style.display = 'none';
+
+    askQuestionSM.addEventListener('click', function (e) {
+        e.preventDefault();
+        questionFormSM.style.display = 'block';
+        questionOutputSM.style.display = 'none'
+    })
+    cancelQuestionSM.addEventListener('click', function (e) {
+        e.preventDefault();
+        topicSM.innerHTML = '';
+        questionBodySM.innerHTML = ''
+        questionFormSM.style.display = 'none';
+        questionOutputSM.style.display = 'block'
+    })
+
+
+</script>

@@ -8,10 +8,25 @@ const requireLogin = require("../config/requireLogin");
 
 // MODELS
 require("../models/Post");
+require("../models/Questions");
 const Post = mongoose.model("posts");
+const Questions = mongoose.model("question");
 
 router.get("/", (req, res) => {
   res.render("index");
+});
+
+// Get solution to questions
+router.get("/questions/:_id", (req, res) => {
+  Questions.findOne({ _id: req.params._id })
+    .populate("user")
+    .sort({ _id: -1 })
+    .then((question) => {
+      res.render("solve-question", { question });
+    })
+    .catch((err) => {
+      res.send({ error: err.message });
+    });
 });
 
 // private chat route.

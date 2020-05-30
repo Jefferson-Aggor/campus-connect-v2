@@ -98,10 +98,9 @@ searchBooksForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const book = enterBookSm.value;
   spinner.style.display = "block";
-
+  ui.clearBooksSM();
   if (book === "") {
     console.log("input empty");
-
     spinner.style.display = "none";
   } else {
     data
@@ -132,6 +131,7 @@ data.getQuestions(urlDetails.room).then((questions) => {
     questions.map((question) => {
       console.log(question);
       ui.questionsLg(question);
+      ui.questionsSM(question);
     });
   } else {
     console.log("No Question");

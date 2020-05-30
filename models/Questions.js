@@ -8,7 +8,6 @@ const QuestionSchema = new Schema({
   },
   body: {
     type: String,
-    required: true,
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -26,6 +25,24 @@ const QuestionSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  solutions: [
+    {
+      solvedBy: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+      solution: {
+        type: String,
+      },
+      solvedDate: {
+        type: Date,
+        default: Date.now,
+      },
+      file: {
+        type: String,
+      },
+    },
+  ],
 });
 
 mongoose.model("question", QuestionSchema);

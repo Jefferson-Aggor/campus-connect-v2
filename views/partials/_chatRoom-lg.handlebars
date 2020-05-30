@@ -153,10 +153,7 @@
 
     </div>
 </div>
-<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace('body')
-</script>
+
 
 <script>
     const askQuestion = document.getElementById('post-question')
@@ -171,7 +168,7 @@
     askQuestion.addEventListener('click', function (e) {
         e.preventDefault();
         questionForm.style.display = 'block';
-        questionOutput.style.display ='none'
+        questionOutput.style.display = 'none'
     })
     cancelQuestion.addEventListener('click', function (e) {
         e.preventDefault();

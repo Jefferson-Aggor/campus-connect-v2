@@ -10,6 +10,10 @@
                     aria-controls="pills-profile" aria-selected="false"><i class="fas fa-globe"></i></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" id="pills-questions-tab" data-toggle="pill" href="#pills-questions-sm" role="tab"
+                    aria-controls="pills-profile" aria-selected="false"><i class="fas fa-globe"></i></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" id="pills-contact-tab" data-toggle="pill" href="#pills-contact-sm" role="tab"
                     aria-controls="pills-contact" aria-selected="false"><i class="fas fa-globe"></i></a>
             </li>
@@ -35,6 +39,15 @@
         <div class="tab-pane fade" id="pills-profile-sm" role="tabpanel" aria-labelledby="pills-profile-tab">
 
             {{> _search-news-sm}}
+            <div style="height:7rem"></div>
+
+        </div>
+        <div class="tab-pane fade" id="pills-questions-sm" role="tabpanel" aria-labelledby="pills-questions-tab">
+
+            <div class="mx-2">
+                {{> _question-sm}}
+            </div>
+
             <div style="height:7rem"></div>
 
         </div>

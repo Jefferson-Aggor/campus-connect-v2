@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect | Question Solution</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="my-5 ">
+            <div class="general-space-between">
+                <h4 class="text-dark">{{question.topic}}</h4>
+                <p class="text-muted">{{dateFromNow question.askedTime}}</p>
+            </div>
+
+            <p>{{{question.body}}}</p>
+            <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
+                solution</button>
+
+            {{> _long-modal}}
+        </div>
+
+
+        <div class="solutions container-sm">
+            <h4 class="lead">Solutions</h4>
+            <div class="divider"></div>
+            {{#if question.solutions}}
+            {{#each question.solutions}}
+            <div class="card p-2 mb-2 bg-light">
+                <div class="general-space-between">
+                    <div class="general-display-flex my-2">
+                        <span class="nameStripper mx-1">
+                            {{nameStripper ../question.user.firstname}}
+                        </span>
+                        <span>
+                            <a href="/chat-room/userprofile/{{../question.user._id}}" class="text-dark">
+                                {{../question.user.firstname}}
+                                {{../question.user.lastname}}
+                            </a>
+                        </span>
+                    </div>
+                    <small>{{formatDate solvedDate}}</small>
+                </div>
+                {{#if file}}
+                <div class="container-sm">
+                    <a href="{{file}}"><img src="{{file}}" alt="" style="max-height: 300px;"></a>
+                </div>
+                {{else}}
+                <div class="container">
+                    <p class="mx-5">{{{solution}}}</p>
+                </div>
+
+                {{/if}}
+                <div class="mx-5">
+                    <div class="general-space-between my-2">
+                        <div class="general-display-flex ">
+                            <a href=""><i class="fas fa-globe mx-2"></i></a>
+                            <a href=""><i class="fas fa-user"></i></a>
+                        </div>
+                        <a href="#" class="btn btn-danger">Flag Soln</a>
+
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            {{else}}
+            <p>No solution yet </p>
+            {{/if}}
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
