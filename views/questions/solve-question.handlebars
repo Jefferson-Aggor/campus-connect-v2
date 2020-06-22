@@ -9,35 +9,57 @@
 
 <body>
     <div class="container">
+        {{> _errors}}
         <div class="my-5 ">
+
             <div class="general-space-between">
                 <h4 class="text-dark">{{question.topic}}</h4>
                 <p class="text-muted">{{dateFromNow question.askedTime}}</p>
             </div>
 
-            <p>{{{question.body}}}</p>
-            <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
-                solution</button>
+            <div>
+                <p>{{{question.body}}}</p>
+                <div class="general-space-between">
+                    <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
+                        solution</button>
+                    <div>
+                        {{!-- {{> _dropdown}}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
 
-            {{> _long-modal}}
+                            <a class="dropdown-item" href="/question/edit/{{question._id}}">
+                                <i class="far fa-edit"></i> Edit
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form action="/api/question/delete/{{question._id}}?_method=DELETE" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <i class="far fa-delete"></i> Delete
+                            </form>
+
+                        </div> --}}
+
+                        {{{showEditMenu loggedUser._id question.user._id question._id}}}
+                    </div>
+                </div>
+                {{> _long-modal}}
+            </div>
         </div>
 
 
-        <div class="solutions container-sm">
+        <div class="solutions container">
             <h4 class="lead">Solutions</h4>
             <div class="divider"></div>
             {{#if question.solutions}}
             {{#each question.solutions}}
             <div class="card p-2 mb-2 bg-light">
+
                 <div class="general-space-between">
                     <div class="general-display-flex my-2">
                         <span class="nameStripper mx-1">
-                            {{nameStripper ../question.user.firstname}}
+                            {{nameStripper solvedBy.firstname}}
                         </span>
                         <span>
-                            <a href="/chat-room/userprofile/{{../question.user._id}}" class="text-dark">
-                                {{../question.user.firstname}}
-                                {{../question.user.lastname}}
+                            <a href="/chat-room/userprofile/{{solvedBy._id}}" class="text-dark">
+                                {{solvedBy.firstname}} {{solvedBy.lastname}}
                             </a>
                         </span>
                     </div>
@@ -59,7 +81,7 @@
                             <a href=""><i class="fas fa-globe mx-2"></i></a>
                             <a href=""><i class="fas fa-user"></i></a>
                         </div>
-                        <a href="#" class="btn btn-danger">Flag Soln</a>
+                        <a href="#">...</a>
 
                     </div>
                 </div>

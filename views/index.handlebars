@@ -10,6 +10,10 @@
             background: url('/img/bg1.png') no-repeat center/cover;
 
         }
+
+        .spinner-border {
+            font-size: 10px !important;
+        }
     </style>
 </head>
 
@@ -32,7 +36,7 @@
                 {{> _errors}}
                 <div class=" shadow p">
 
-                    <form action="/user/login" method="post">
+                    <form action="/user/login" method="post" id='login-form'>
                         <div class="shadow-sm flex ">
                             <input type="email" class="my-input " name="email" placeholder="e-mail" required>
                         </div>
@@ -42,10 +46,14 @@
                         </div>
 
                         <div class="shadow-sm">
-                            <input type="submit" value="Login" class="btn btn-block btn-dark">
+                            <button type="submit" class="btn btn-block btn-dark" id="login-button">
+                                Login
+                            </button>
                         </div>
 
+
                         <div class="all-center">
+                            <p id="loading"></p>
                             <p>Don't have an account? <a href="/user/register">Sign Up</a></p>
                         </div>
                     </form>
@@ -122,5 +130,19 @@
         </div>
     </div>
 </body>
+
+<script>
+    const loginForm = document.getElementById('login-form')
+    const loginButton = document.getElementById('login-button')
+
+    loginForm.addEventListener('submit', function (e) {
+        document.getElementById('login-button').innerHTML = `
+        <div class="spinner-border text-light" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+        `
+    })
+
+</script>
 
 </html>

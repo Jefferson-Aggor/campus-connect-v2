@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect | Edit question</title>
+</head>
+
+<body>
+    <div class="container-sm my-3">
+        <div class="solution-form">
+            <form action="/api/question/edit/{{question._id}}?_method=PUT" method="post">
+
+                <input type="hidden" name="_method" value="PUT">
+                <textarea name="editquestion" id="soln" cols="30" rows="10">{{question.body}}</textarea>
+                <p class="text-center my-2">Or send image instead</p>
+                <input type="file" name="file" value="{{question.file}}">
+                <div class="divider my-2"></div>
+                <div class="all-center">
+                    <input type="submit" value="Edit Question" class="btn bg-warning ">
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

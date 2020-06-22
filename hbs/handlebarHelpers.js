@@ -33,10 +33,41 @@ const commentStripper = (comment) => {
     };
   }
 };
+const conditional = (value1, value2, options) => {
+  if (value1 === value2) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+};
+
+const showEditMenu = (loggedUserId, userId, questionId) => {
+  if (loggedUserId.toString() === userId.toString()) {
+    return `<a class=" dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="false" data-reference="parent">
+    <i class=" fas fa-ellipsis-h "></i>
+    </a>
+    
+    <a class="dropdown-item" href="/question/edit/${questionId}">
+          <i class="far fa-edit"></i> Edit</a>
+          <div class="dropdown-divider"></div>
+          <form action="/api/question/delete/${questionId}?_method=DELETE" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <i class="far fa-delete"></i> Delete
+          </form>
+    
+    `;
+  } else {
+    return "";
+  }
+};
+
 module.exports = {
   formatDate,
   dateFromNow,
   trimText,
   nameStripper,
   commentStripper,
+  conditional,
+  showEditMenu,
 };

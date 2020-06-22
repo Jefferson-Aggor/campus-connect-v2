@@ -17,16 +17,37 @@ router.get("/", (req, res) => {
 });
 
 // Get solution to questions
-router.get("/questions/:_id", (req, res) => {
+router.get("/questions/:_id", requireLogin, (req, res) => {
   Questions.findOne({ _id: req.params._id })
     .populate("user")
-    .sort({ _id: -1 })
+    .populate("solutions.solvedBy")
     .then((question) => {
-      res.render("solve-question", { question });
+      res.render("questions/solve-question", {
+        question,
+        loggedUser: req.user,
+      });
     })
     .catch((err) => {
       res.send({ error: err.message });
     });
+});
+
+//Route to edit a question
+router.get("/question/edit/:_id", requireLogin, (req, res) => {
+  Questions.findOne({ _id: req.params._id })
+    .then((question) => {
+      if (question.user.toString() != req.user._id.toString()) {
+        req.flash("error_msg", "Not authorized action");
+        res.redirect(`/questions/${question._id}`);
+      } else {
+        console.log(question);
+        res.render("questions/edit-question", {
+          question,
+          loggedUser: req.user,
+        });
+      }
+    })
+    .catch((err) => console.log("not found"));
 });
 
 // private chat route.
@@ -37,7 +58,9 @@ router.get("/private-chat", requireLogin, (req, res) => {
 router.get("/post/details/:_id", (req, res) => {
   Post.findOne({ _id: req.params._id })
     .populate("user")
+    .populate("comments.commentUser")
     .then((post) => {
+      console.log(post);
       res.render("postDetails", { post, loggedUser: req.user });
     })
     .catch((err) => {

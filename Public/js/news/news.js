@@ -15,7 +15,7 @@ class Data {
   }
   async getBooks(books) {
     const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${books}&download=epub&key=${this.booksapikey}`
+      `https://www.googleapis.com/books/v1/volumes?q=${books}&download=epub&orderBy=newest&filter=free-ebooks&key=${this.booksapikey}`
     );
 
     const responseData = await response.json();

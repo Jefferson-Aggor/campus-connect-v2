@@ -23,6 +23,8 @@ const {
   trimText,
   nameStripper,
   commentStripper,
+  conditional,
+  showEditMenu,
 } = require("./hbs/handlebarHelpers");
 
 // middlewares
@@ -36,6 +38,8 @@ app.engine(
       trimText,
       nameStripper,
       commentStripper,
+      conditional,
+      showEditMenu,
     },
   })
 );

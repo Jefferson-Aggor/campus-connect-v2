@@ -13,21 +13,28 @@ module.exports = function (passport) {
         usernameField: "email",
       },
       (email, password, done) => {
-        User.findOne({ email: email }).then((user) => {
-          if (!user) {
-            return done(null, false, { message: "User not found" });
-          }
-
-          //   compare password
-          bcrypt.compare(password, user.password, (err, match) => {
-            if (err) throw err;
-            if (match) {
-              return done(null, user);
-            } else {
-              return done(null, false, { message: "Incorrect password" });
+        User.findOne({ email: email })
+          .then((user) => {
+            if (!user) {
+              return done(null, false, { message: "User not found" });
             }
+
+            //   compare password
+            bcrypt.compare(password, user.password, (err, match) => {
+              if (err) throw err;
+              if (match) {
+                return done(null, user);
+              } else {
+                return done(null, false, { message: "Incorrect password" });
+              }
+            });
+          })
+          .catch((err) => {
+            console.log(err.message);
+            return done(null, false, {
+              message: "Something bad occured, Try again",
+            });
           });
-        });
       }
     )
   );

@@ -1,11 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const router = express.Router();
 
 // require files
 const { mongURI, cloud_name, api_secret, api_key } = require("../config/keys");
+const { multerDest, saveToMongoDB, updateMongoDB } = require("../config/utils");
 
 cloudinary.config({
   cloud_name: cloud_name,
@@ -17,31 +17,14 @@ cloudinary.config({
 require("../models/Post");
 require("../models/Users");
 require("../models/Questions");
+require("../models/Chat");
 const Post = mongoose.model("posts");
 const Users = mongoose.model("user");
 const Questions = mongoose.model("question");
-
-// multer function
-const multerDest = (destination) => {
-  return multer({
-    dest: destination,
-  });
-};
-
-// Save to DB
-const saveToMongoDB = (schema, objectToSave, res, url) => {
-  return new schema(objectToSave)
-    .save()
-    .then((item) => {
-      res.redirect(url);
-    })
-    .catch((err) => {
-      res.send("Error from connection");
-    });
-};
+const Chats = mongoose.model("chat");
 
 const eagerOptions = {
-  q: 60,
+  quality: 60,
 };
 
 router.post(
@@ -71,32 +54,36 @@ router.post(
         .catch((err) => console.log(err));
     } else {
       console.log(req.file);
-      cloudinary.uploader.upload(req.file.path, eagerOptions, (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          const newPost = {
-            infoType,
-            relatedTo: room,
-            title,
-            body,
-            link,
-            file: result.secure_url,
-            user: req.user,
-          };
-          new Post(newPost)
-            .save()
-            .then(() => {
-              req.flash(
-                "success_msg",
-                `Post sent to ${newPost.relatedTo} room `
-              );
-              console.log(newPost);
-              res.redirect("/user/chat-form");
-            })
-            .catch((err) => console.log(err));
+      cloudinary.uploader.upload(
+        req.file.path,
+        { eager: eagerOptions },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            const newPost = {
+              infoType,
+              relatedTo: room,
+              title,
+              body,
+              link,
+              file: result.secure_url,
+              user: req.user,
+            };
+            new Post(newPost)
+              .save()
+              .then(() => {
+                req.flash(
+                  "success_msg",
+                  `Post sent to ${newPost.relatedTo} room `
+                );
+                console.log(newPost);
+                res.redirect("/user/chat-form");
+              })
+              .catch((err) => console.log(err));
+          }
         }
-      });
+      );
     }
   }
 );
@@ -166,28 +153,83 @@ router.post(
       );
     } else {
       console.log(req.file);
-      cloudinary.uploader.upload(req.file.path, eagerOptions, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          const newQuestion = {
-            topic,
-            body,
-            user: req.user._id,
-            relatedTo: req.user.programme,
-            file: result.secure_url,
-          };
-          saveToMongoDB(
-            Questions,
-            newQuestion,
-            res,
-            `/chat-room/${programme}/?username=${firstname}${lastname}&id=${_id}&room=${programme}`
-          );
+      cloudinary.uploader.upload(
+        req.file.path,
+        { eager: eagerOptions },
+        (err, result) => {
+          if (err) {
+            res.send(err);
+          } else {
+            const newQuestion = {
+              topic,
+              body,
+              user: req.user._id,
+              relatedTo: req.user.programme,
+              file: result.secure_url,
+            };
+            saveToMongoDB(
+              Questions,
+              newQuestion,
+              res,
+              `/chat-room/${programme}/?username=${firstname}${lastname}&id=${_id}&room=${programme}`
+            );
+          }
         }
-      });
+      );
     }
   }
 );
+
+// route to edit a question
+router.put(
+  "/question/edit/:_id",
+  multerDest("/questions/edited").single("file"),
+  (req, res) => {
+    Questions.findOne({ _id: req.params._id }).then((question) => {
+      if (req.file) {
+        cloudinary.uploader.upload(
+          req.file.path,
+          eagerOptions,
+          (err, result) => {
+            if (err) throw err.message;
+            question.file = result.secure_url;
+            updateMongoDB(
+              question,
+              req.flash("success_msg", "Question updated"),
+              res,
+              `/questions/${question._id}`,
+              "questions/edit-question"
+            );
+          }
+        );
+      } else {
+        question.body = req.body.editquestion;
+        updateMongoDB(
+          question,
+          req.flash("success_msg", "Question updated"),
+          res,
+          `/questions/${question._id}`,
+          "questions/edit-question"
+        );
+      }
+    });
+  }
+);
+
+router.delete("/question/delete/:_id", (req, res) => {
+  Questions.deleteOne({ _id: req.params._id }).then((question) => {
+    let { firstname, lastname, _id, programme } = req.user;
+    if (question.user._id === req.user._id) {
+      req.flash("success_msg", "Question Deleted");
+      res.redirect(
+        `/chat-room/${programme}?username=${firstname}${lastname}&id=${_id}&room=${programme}`
+      );
+    } else {
+      req.flash("error_msg", "Not Authorized action");
+      res.redirect(`/questions/${question._id}`);
+    }
+  });
+});
 
 // router to post answers to questions
 router.post(
@@ -299,10 +341,12 @@ router.get("/questions", (req, res) => {
 router.get("/questions/:programme", (req, res) => {
   Questions.find({ relatedTo: req.params.programme })
     .populate("user")
+    .populate("solutions.solvedBy")
     .limit(15)
     .sort({ _id: -1 })
     .then((questions) => {
       if (questions) {
+        console.log(questions);
         res.json(questions);
       } else {
         res.json({ msg: "No questions yet" });
@@ -318,13 +362,29 @@ router.get("/questions/:_id", (req, res) => {
   Questions.findOne({ _id: req.params._id })
     .then((question) => {
       if (question.length === 0) {
-        res.json({ msg: "No question" });
+        return res.json({ msg: "No question" });
       }
-
       res.json(question);
     })
     .catch((err) => {
       res.json({ error: err.message });
     });
 });
+
+// get all chats related to a room.
+router.get("/chats/:room", (req, res) => {
+  Chats.find({ room: req.params.room })
+    .sort({ _id: -1 })
+    .then((chat) => {
+      if (chat === []) {
+        res.json({ msg: "No message yet" });
+      } else {
+        res.json(chat);
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+});
+
 module.exports = router;
