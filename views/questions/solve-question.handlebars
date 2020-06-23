@@ -99,28 +99,6 @@
 
 
     </div>
-
-    <script>
-        const likeIcon = document.getElementById('like');
-        const dislikeIcon = document.getElementById('dislike')
-        const likesCount = document.querySelector('.likes-count')
-        const unlikesCount = document.querySelector('.unlikes-count')
-        const questionId = document.getElementById('questionId')
-
-        likeIcon.addEventListener('click', function () {
-            const questionID = questionId.value;
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('post', `/like-question/${questionID}`, true)
-            xhr.setRequestHeader('Content-Type : x-www-form-urlencoded')
-            xhr.onreadystatechange = function () {
-                console.log(this.readyState)
-            }
-
-            xhr.send(`questionId : ${questionID}`)
-        })
-    </script>
-
 </body>
 
 </html>
