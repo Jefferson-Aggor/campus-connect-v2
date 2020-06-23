@@ -15,7 +15,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/api/question/{{question._id}}" method="post" enctype="multipart/form-data">
+                <form action="/api/question/{{question._id}}" method="post" enctype="multipart/form-data"
+                    autocomplete="off">
                     <strong>QUESTION:</strong> {{{trimText question.body}}}
 
                     <div class="solution-form">
