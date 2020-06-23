@@ -183,7 +183,7 @@ router.post(
 // route to edit a question
 router.put(
   "/question/edit/:_id",
-  multerDest("/questions/edited").single("file"),
+  multerDest("./questions/edited").single("file"),
   (req, res) => {
     Questions.findOne({ _id: req.params._id }).then((question) => {
       if (req.file) {
