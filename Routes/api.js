@@ -346,7 +346,6 @@ router.get("/questions/:programme", (req, res) => {
     .sort({ _id: -1 })
     .then((questions) => {
       if (questions) {
-        console.log(questions);
         res.json(questions);
       } else {
         res.json({ msg: "No questions yet" });
@@ -358,16 +357,13 @@ router.get("/questions/:programme", (req, res) => {
 });
 
 // get a single question;
-router.get("/questions/:_id", (req, res) => {
+router.get("/question/:_id", (req, res) => {
   Questions.findOne({ _id: req.params._id })
     .then((question) => {
-      if (question.length === 0) {
-        return res.json({ msg: "No question" });
-      }
       res.json(question);
     })
     .catch((err) => {
-      res.json({ error: err.message });
+      res.status(500).json({ error: err.message });
     });
 });
 

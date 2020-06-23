@@ -328,7 +328,11 @@ img {
   padding: 0.3rem 1rem;
   margin-right: 0.2rem;
 }
-
+.transparent_btn {
+  background: transparent;
+  border: none !important;
+  outline: none !important;
+}
 .badge {
   display: inline-block;
   font-size: 0.8rem;
@@ -991,5 +995,8 @@ table th {
   }
   #scrollToBottom {
     bottom: 180px;
+  }
+  .chatForm {
+    display: block;
   }
 }

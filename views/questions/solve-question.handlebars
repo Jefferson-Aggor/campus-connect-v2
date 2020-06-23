@@ -5,40 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Connect | Question Solution</title>
+    <style>
+        .like_dislike {
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.3rem;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         {{> _errors}}
         <div class="my-5 ">
-
             <div class="general-space-between">
                 <h4 class="text-dark">{{question.topic}}</h4>
                 <p class="text-muted">{{dateFromNow question.askedTime}}</p>
             </div>
-
+            <input type="hidden" value="{{question._id}}" id="questionId">
             <div>
                 <p>{{{question.body}}}</p>
                 <div class="general-space-between">
                     <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
                         solution</button>
                     <div>
-                        {{!-- {{> _dropdown}}
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                        <button class="transparent_btn" id='like'>
+                            <i class="far fa-heart like_dislike"></i> <span class="likes-count"></span>
+                        </button>
+                        <span class="mx-3"></span>
+                        <button class="transparent_btn" id="dislike">
+                            <i class="far fa-thumbs-down like_dislike"></i>
+                            <span class="unlikes-count"></span>
+                        </button>
 
-                            <a class="dropdown-item" href="/question/edit/{{question._id}}">
-                                <i class="far fa-edit"></i> Edit
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <form action="/api/question/delete/{{question._id}}?_method=DELETE" method="post">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <i class="far fa-delete"></i> Delete
-                            </form>
-
-                        </div> --}}
-
+                    </div>
+                    <div>
                         {{{showEditMenu loggedUser._id question.user._id question._id}}}
                     </div>
+
                 </div>
                 {{> _long-modal}}
             </div>
@@ -95,6 +99,27 @@
 
 
     </div>
+
+    <script>
+        const likeIcon = document.getElementById('like');
+        const dislikeIcon = document.getElementById('dislike')
+        const likesCount = document.querySelector('.likes-count')
+        const unlikesCount = document.querySelector('.unlikes-count')
+        const questionId = document.getElementById('questionId')
+
+        likeIcon.addEventListener('click', function () {
+            const questionID = questionId.value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('post', `/like-question/${questionID}`, true)
+            xhr.setRequestHeader('Content-Type : x-www-form-urlencoded')
+            xhr.onreadystatechange = function () {
+                console.log(this.readyState)
+            }
+
+            xhr.send(`questionId : ${questionID}`)
+        })
+    </script>
 
 </body>
 
