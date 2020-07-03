@@ -857,7 +857,7 @@ table th {
 }
 
 .display-bottom {
-  background: #f1f1f1;
+  background: #333333;
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
@@ -892,6 +892,11 @@ table th {
   align-items: center;
 }
 .general-display-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-and-likes {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -370,9 +370,12 @@ function imageFromMe(msg, placeholder) {
             <div class="meta">
               <p>${formatTime(msg.date)}</p>
             </div>
-          <img class="text img-fluid" src='${
-            msg.message
-          }' style='height:200px;width:200px' ">
+            <a href="${msg.message}" data-lightbox="${
+    msg.message
+  }"><img class="text img-fluid" src='${
+    msg.message
+  }' style='height:200px;width:200px' "></a>
+          
         </div>
     </div>
     <div class="clear"></div>
@@ -384,9 +387,12 @@ function imageFromOthers(msg, placeholder) {
   <div class="text-messages chat-from-others ">
     <div class="messages">
         <p class='text-muted'>${msg.username}</p>
-        <img class="text img-fluid" src='${
-          msg.message
-        }' style='height:200px;width:200px' ">
+        <a href="${msg.message}" data-lightbox="${
+    msg.message
+  }"><img class="text img-fluid" src='${
+    msg.message
+  }' style='height:200px;width:200px' "></a>
+        
         <p class='text-muted'>${formatTime(msg.date)}</p> 
     </div>
 </div>

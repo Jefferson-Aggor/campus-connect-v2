@@ -2,6 +2,7 @@ class Data {
   constructor() {
     this.newsapiKey = "a97481c13fb5422188141ed04b956ee6";
     this.booksapikey = "AIzaSyAOZDpitKja4OB6p6Apb2MV0LCuVd5OW5I";
+    this.defaultRootUrl = `https://campusconnectversion.herokuapp.com/api`;
     this.maxResults = 5;
   }
 
@@ -23,16 +24,14 @@ class Data {
     return responseData;
   }
   async getPosts() {
-    const response = await fetch(
-      `https://campusconnectversion.herokuapp.com/api/posts`
-    );
+    const response = await fetch(`${this.defaultRootUrl}/posts`);
     const responseData = await response.json();
 
     return responseData;
   }
   async getQuestions(relatedTo) {
     const response = await fetch(
-      `https://campusconnectversion.herokuapp.com/api/questions/${relatedTo}`
+      `${this.defaultRootUrl}/questions/${relatedTo}`
     );
 
     const responseData = await response.json();

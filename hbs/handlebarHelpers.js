@@ -33,11 +33,28 @@ const commentStripper = (comment) => {
     };
   }
 };
-const conditional = (value1, value2, options) => {
+const conditionalString = (value1, value2, options) => {
+  if (value1.toString() === value2.toString()) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+};
+const conditionalNum = (value1, value2, options) => {
   if (value1 === value2) {
     return options.fn(this);
   } else {
     return options.inverse(this);
+  }
+};
+
+const showLiked = (arr, loggedUserId) => {
+  if (
+    arr.find((liked) => liked.likedBy.toString() === loggedUserId.toString())
+  ) {
+    return `<i class="far fa-heart text-red like_dislike"></i>`;
+  } else {
+    return `<i class="far fa-heart like_dislike"></i>`;
   }
 };
 
@@ -53,7 +70,7 @@ const showEditMenu = (loggedUserId, userId, questionId) => {
           <div class="dropdown-divider"></div>
           <form action="/api/question/delete/${questionId}?_method=DELETE" method="post">
               <input type="hidden" name="_method" value="DELETE">
-              <i class="far fa-delete"></i> Delete
+              <i class="fas fa-delete"></i> Delete
           </form>
     
     `;
@@ -68,6 +85,7 @@ module.exports = {
   trimText,
   nameStripper,
   commentStripper,
-  conditional,
+  conditionalString,
   showEditMenu,
+  showLiked,
 };

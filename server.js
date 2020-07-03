@@ -23,8 +23,9 @@ const {
   trimText,
   nameStripper,
   commentStripper,
-  conditional,
+  conditionalString,
   showEditMenu,
+  showLiked,
 } = require("./hbs/handlebarHelpers");
 
 // middlewares
@@ -38,8 +39,9 @@ app.engine(
       trimText,
       nameStripper,
       commentStripper,
-      conditional,
+      conditionalString,
       showEditMenu,
+      showLiked,
     },
   })
 );
@@ -80,7 +82,6 @@ app.use(passport.session());
 
 // require files
 const user = require("./Routes/user");
-const index = require("./Routes/index");
 const api = require("./Routes/api");
 const { mongURI } = require("./config/keys");
 
@@ -94,7 +95,6 @@ mongoose
     console.log(`MongDB not connected because of ${err}`);
   });
 
-app.use("/", index);
 app.use("/user", user);
 app.use("/api", api);
 
@@ -105,5 +105,7 @@ const server = app.listen(PORT, () =>
 
 // socket io
 const io = socket(server);
+const index = require("./Routes/index")(io);
 const chatRoom = require("./Routes/chat")(io);
+app.use("/", index);
 app.use("/chat-room", chatRoom);

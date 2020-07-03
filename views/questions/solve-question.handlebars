@@ -26,30 +26,34 @@
             <div>
                 <p>{{{question.body}}}</p>
                 <div class="general-space-between">
-                    <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
-                        solution</button>
-                    <div>
-                        <button class="transparent_btn" id='like'>
-                            <i class="far fa-heart like_dislike"></i> <span class="likes-count"></span>
-                        </button>
-                        <span class="mx-3"></span>
-                        <button class="transparent_btn" id="dislike">
-                            <i class="far fa-thumbs-down like_dislike"></i>
-                            <span class="unlikes-count"></span>
-                        </button>
+                    <div class="add-and-likes">
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalScrollable">Add your
+                            solution</button>
+                        <div>
+                            <button class="transparent_btn" id='like'>
 
+                                {{!-- <i class="far fa-heart like_dislike"></i>  --}}
+
+                                {{{showLiked question.likes loggedUser._id}}}
+                                <span class="likes-count">
+                                    <input type="hidden" name="" class="getLikesCount"
+                                        value="{{question.likes.length}}">
+                                    {{question.likes.length}}
+                                </span> <span class="mr-1">likes</span>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         {{{showEditMenu loggedUser._id question.user._id question._id}}}
                     </div>
-
                 </div>
+
                 {{> _long-modal}}
             </div>
         </div>
+        <input type="hidden" id="loggedUserId" value="{{loggedUser._id}}">
 
-
-        <div class="solutions container">
+        <div class="solutions">
             <h4 class="lead">Solutions</h4>
             <div class="divider"></div>
             {{#if question.solutions}}
@@ -87,6 +91,8 @@
                         </div>
                         <a href="#">...</a>
 
+
+
                     </div>
                 </div>
             </div>
@@ -99,6 +105,10 @@
 
 
     </div>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/helper.js"></script>
 </body>
 
 </html>

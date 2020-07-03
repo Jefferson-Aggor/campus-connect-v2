@@ -43,6 +43,28 @@ const QuestionSchema = new Schema({
       },
     },
   ],
+  likes: [
+    {
+      likesCount: {
+        type: Number,
+      },
+      likedBy: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    },
+  ],
+  dislikes: [
+    {
+      dislikesCount: {
+        type: Number,
+      },
+      dislikedBy: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    },
+  ],
 });
 
 mongoose.model("question", QuestionSchema);

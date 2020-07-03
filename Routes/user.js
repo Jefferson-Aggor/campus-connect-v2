@@ -102,7 +102,7 @@ router.put("/edit/:_id", (req, res) => {
       console.log(user);
       req.flash("success_msg", "Profile Updated");
       res.redirect(
-        `/chat-room/${user.programme}?username=${user.firstname}${user.lastname}&room=${user.programme}`
+        `/chat-room/${user.programme}?username=${user.firstname}${user.lastname}&room=${user.programme}&id=${user._id}`
       );
     });
   });
