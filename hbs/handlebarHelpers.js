@@ -58,21 +58,17 @@ const showLiked = (arr, loggedUserId) => {
   }
 };
 
-const showEditMenu = (loggedUserId, userId, questionId) => {
+const showEditMenu = (loggedUserId, userId, editRoute, deleteRoute, id) => {
   if (loggedUserId.toString() === userId.toString()) {
-    return `<a class=" dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true"
-    aria-expanded="false" data-reference="parent">
-    <i class=" fas fa-ellipsis-h "></i>
+    return `
+    <a  href=${editRoute}${id.toString()}>
+          <i class="far fa-edit"></i> Edit
     </a>
-    
-    <a class="dropdown-item" href="/question/edit/${questionId}">
-          <i class="far fa-edit"></i> Edit</a>
-          <div class="dropdown-divider"></div>
-          <form action="/api/question/delete/${questionId}?_method=DELETE" method="post">
-              <input type="hidden" name="_method" value="DELETE">
-              <i class="fas fa-delete"></i> Delete
-          </form>
-    
+          
+    <form action=${deleteRoute} method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <i class="fas fa-delete"></i> Delete
+    </form>
     `;
   } else {
     return "";

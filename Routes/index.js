@@ -32,7 +32,7 @@ module.exports = function (io) {
         });
       })
       .catch((err) => {
-        res.send({ error: err.message });
+        res.render("error", { message: "Something bad happened, try again" });
       });
   });
 
@@ -40,7 +40,6 @@ module.exports = function (io) {
   io.on("connection", (socket) => {
     console.log("socket connection made");
     socket.on("liked", (likes, id, loggedUserId) => {
-      console.log(loggedUserId);
       let like = likes + 1;
       Questions.findOne({ _id: id }).then((question) => {
         if (checkIfLiked(question.likes, loggedUserId)) {
@@ -81,7 +80,11 @@ module.exports = function (io) {
           });
         }
       })
-      .catch((err) => console.log("not found"));
+      .catch((err) => {
+        res.render("error", {
+          message: "Question not found",
+        });
+      });
   });
 
   // private chat route.
@@ -99,7 +102,7 @@ module.exports = function (io) {
         res.render("postDetails", { post, loggedUser: req.user });
       })
       .catch((err) => {
-        res.send({ err: err.message });
+        res.render("error", { message: "Sorry, cannot get post. Try again" });
       });
   });
   return router;

@@ -98,13 +98,18 @@ router.put("/edit/:_id", (req, res) => {
       (user.school = school),
       (user.programme = programme);
 
-    user.save().then((user) => {
-      console.log(user);
-      req.flash("success_msg", "Profile Updated");
-      res.redirect(
-        `/chat-room/${user.programme}?username=${user.firstname}${user.lastname}&room=${user.programme}&id=${user._id}`
-      );
-    });
+    user
+      .save()
+      .then((user) => {
+        console.log(user);
+        req.flash("success_msg", "Profile Updated");
+        res.redirect(
+          `/chat-room/${user.programme}?username=${user.firstname}${user.lastname}&room=${user.programme}&id=${user._id}`
+        );
+      })
+      .catch((err) => {
+        res.render("error", { message: "Could not update your profile" });
+      });
   });
 });
 

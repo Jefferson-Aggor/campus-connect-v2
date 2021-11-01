@@ -42,7 +42,9 @@ module.exports = function (io) {
           });
       })
       .catch((err) => {
-        res.send("Error from connection");
+        res.render("error", {
+          message: "Cannot view chat room, please try again",
+        });
       });
   });
 
@@ -61,7 +63,9 @@ module.exports = function (io) {
           });
         });
       })
-      .catch((err) => res.send("Error from connection"));
+      .catch((err) => {
+        res.render("error", { message: "Something bad happened, Try again" });
+      });
   });
 
   // socket

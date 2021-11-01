@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div>
-                        {{{showEditMenu loggedUser._id question.user._id question._id}}}
+                        {{{showEditMenu loggedUser._id question.user._id '/question/edit/' '' question._id}}}
                     </div>
                 </div>
 
@@ -89,10 +89,7 @@
                             <a href=""><i class="fas fa-globe mx-2"></i></a>
                             <a href=""><i class="fas fa-user"></i></a>
                         </div>
-                        <a href="#">...</a>
-
-
-
+                        {{{showEditMenu ../loggedUser._id solvedBy._id '/solution/edit/' '' _id}}}
                     </div>
                 </div>
             </div>

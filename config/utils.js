@@ -15,7 +15,9 @@ const saveToMongoDB = (schema, objectToSave, res, url) => {
       res.redirect(url);
     })
     .catch((err) => {
-      res.send("Error from connection");
+      res.render("error", {
+        message: "Something bad happened, Please try again",
+      });
     });
 };
 
@@ -28,13 +30,9 @@ const updateMongoDB = (schema, flash, res, url, page) => {
       res.redirect(url);
     })
     .catch((err) => {
-      let errors = [];
-      if (err) {
-        errors.push({ msg: "Failed to update question, try again" });
-      }
-      if (errors.length > 0) {
-        res.render(page, { errors });
-      }
+      res.render("error", {
+        message: "Something bad happened. Please try again",
+      });
     });
 };
 
